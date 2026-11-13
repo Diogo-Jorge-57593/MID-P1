@@ -1,0 +1,691 @@
+# Physical models - CSV and MongoDB
+
+Version: 2.1 | Date: 13 November 2026
+
+Status: physical specifications. Sections 1-10 describe CSV; sections 11-20
+describe MongoDB. Offline generation code exists in `dataGeneration/` and has
+not been executed. The CSV dataset/reader and revised MongoDB schema are not
+installed by this document. Examples below are synthetic, illustrative records.
+Scope: banking data modelling, storage, validation and queries; no application,
+authentication or user interface.
+
+Editable diagrams: [PhysicalModels.drawio](models/PhysicalModels.drawio), with
+one page per source. Report-ready vector exports:
+[MongoDB](models/mongodb-physical.svg) and [CSV](models/csv-physical.svg).
+Diagrams summarise physical types, storage and checks; the detailed contracts
+below remain the complete specifications.
+
+## 1. Source and record structure
+
+The source stores one entity: **Transaction**. Each data row represents one
+booked incoming or outgoing movement on exactly one bank account.
+
+Account ownership and account details remain in MongoDB. The CSV stores an
+`accountId` reference, not a duplicate Client or Account record.
+
+A transfer between two accounts represented in the dataset produces two rows:
+an `OUT` movement for the sender and an `IN` movement for the receiver. A shared
+`transferId` connects them. Both accounts may belong to the same client.
+
+Cash movements, fees, purchases and external payments can have no `transferId`.
+The source does not model counterparties or identify the other account in those
+cases. It contains booked movements only; pending/failed instructions and
+separate transfer-level records are outside this version.
+
+## 2. Physical file format
+
+All choices below are project design decisions. The lessons do not prescribe a
+particular CSV dialect. Separator, date format and decimal comma preserve the
+earlier proposal in `report/report.tex`; columns follow the latest model.
+
+| Property | Specification |
+|---|---|
+| Source file | `transactions.csv`; generator exports to `Diogo/dataGeneration/outputs/<profile>/<fingerprint>/transactions.csv`; select matching source pair through its manifest |
+| Source type | Plain-text, semicolon-delimited CSV |
+| Encoding | UTF-8 without byte-order mark (BOM) |
+| Header | Required; exact names, case and order shown below |
+| Column count | Exactly eight fields in every parsed data record |
+| Field delimiter | Semicolon (`;`) |
+| Quote character | Double quote (`"`) |
+| Quoting | Quote fields containing delimiter or double quotes |
+| Escaping | A double quote inside a quoted field becomes two double quotes (`""`) |
+| Record terminator | CRLF (`\r\n`) on export; reader may also accept LF (`\n`) |
+| Final newline | Required on export |
+| Multiline fields | Not allowed; field values must contain no CR or LF |
+| Missing values | Empty field allowed only for `transferId` |
+| Whitespace | No padding around identifiers, codes, dates or amounts; description must be non-blank and unpadded |
+| Comments / blank records | Not allowed; no explanatory lines before the header |
+| Export order | Ascending parsed `bookingDate`, then `transactionId`, for reproducibility |
+| Uniqueness | `transactionId` unique across the complete source file |
+| Indexes | None persisted in the CSV; queries initially scan the file |
+
+Exact header:
+
+```csv
+transactionId;accountId;transferId;bookingDate;direction;amount;currency;description
+```
+
+CSV has no native date, decimal, null or reference types. Every field is stored
+as text. The reader must explicitly interpret and validate it.
+
+## 3. Physical field specification
+
+Patterns apply to the entire decoded field value, after CSV parsing. Their
+delimiters and quotes are file syntax, not part of the value.
+
+| Position | Column | Stored representation | Required | Validation and interpretation |
+|---|---|---|---|---|
+| 1 | `transactionId` | Uppercase `T` followed by at least three digits; e.g. `T001` | Yes | Pattern `^T[0-9]{3,}$`; unique movement identifier |
+| 2 | `accountId` | Uppercase `A` followed by at least three digits; e.g. `A001` | Yes | Pattern `^A[0-9]{3,}$`; exact match to MongoDB `dmi_p1_bank.accounts._id` |
+| 3 | `transferId` | Uppercase `TR` followed by at least three digits, or empty; e.g. `TR001` | No | Pattern `^TR[0-9]{3,}$` when present; identifies a pair, so is not unique per row |
+| 4 | `bookingDate` | `DD/MM/YYYY`; e.g. `15/09/2026` | Yes | Pattern `^[0-9]{2}/[0-9]{2}/[0-9]{4}$` plus real-calendar validation; interpret as date without time or timezone |
+| 5 | `direction` | Uppercase `IN` or `OUT` | Yes | `IN` means credit to referenced account; `OUT` means debit from it |
+| 6 | `amount` | Positive decimal text with comma and exactly two fractional digits; e.g. `1250,50` | Yes | Pattern `^(0\|[1-9][0-9]*),[0-9]{2}$`; value at least `0,01`; no sign, thousands separator, exponent, `NaN` or infinity |
+| 7 | `currency` | Uppercase currency code `EUR` | Yes | Only `EUR` in initial scope; must match referenced account's currency |
+| 8 | `description` | UTF-8 text | Yes | Non-empty after whitespace check; no leading/trailing whitespace or control characters; semicolons and double quotes allowed through CSV quoting |
+
+In the amount pattern, `\|` escapes Markdown's table separator; the regular
+expression itself uses ordinary alternation: `^(0|[1-9][0-9]*),[0-9]{2}$`.
+
+Identifiers accept three or more digits. The reference examples retain their
+three-digit IDs; the scale generator uses six-digit IDs such as C000004, A001000
+and T008000. This accommodates thousands of unique records without changing
+entity meaning. Existing MongoDB setup.js validators still need this update.
+
+Empty `transferId` is represented by consecutive delimiters:
+
+```csv
+T004;A001;;15/09/2026;OUT;25,50;EUR;"Card purchase; café"
+```
+
+Do not write literal `NULL`, `None`, `N/A`, `-` or a space for a missing value.
+After parsing, map an empty `transferId` to an absent value such as Python `None`.
+
+## 4. Account references and integrity
+
+Physical link:
+
+```text
+transactions.csv.accountId -> dmi_p1_bank.accounts._id
+```
+
+- Every movement references exactly one existing account.
+- An account can have zero or many movements.
+- Comparison is case-sensitive and exact: `A001` is not `a001` or `A1`.
+- Resolve the owning client through `accounts.clientId -> clients._id`.
+- Do not store a redundant `clientId` in the CSV.
+- Check currency against the referenced account.
+- Reject movements booked before the account opening date. For the current
+  fixture convention, compare `bookingDate` with the UTC calendar date of the
+  BSON `accounts.openedAt` value.
+- A currently closed or blocked account may still have valid historical
+  movements; current status alone does not invalidate a past record.
+
+CSV does not enforce references, uniqueness or business constraints. A planned
+validation script must enforce them. If MongoDB is unavailable, local file
+validation can still run, but account/reference checks remain unverified and
+cross-source validation cannot be reported as passed.
+
+## 5. Transfer-pair constraints
+
+Apply these rules to every non-empty `transferId` in the complete source file:
+
+1. Exactly two movements share the identifier.
+2. Their `transactionId` values differ.
+3. Their `accountId` values differ.
+4. Exactly one movement is `OUT` and the other is `IN`.
+5. Amounts are equal after exact decimal conversion.
+6. Currencies match; both are `EUR` in this version.
+
+Sender account is the `OUT` row's account; receiver is the `IN` row's account.
+The two owners need not be different clients. No additional self-reference
+column or separate Transfer file is needed for these requirements.
+
+Both movements must be present for a transfer represented by `transferId`.
+Do not populate it on an external payment whose counterpart is absent.
+Descriptions are explanatory text, not identifiers used to reconstruct links.
+
+Booking dates need not be identical. Date-only values cannot establish the
+ordering of execution events within a day. Pair checks run **before** account
+or period filters; filtering may legitimately leave only one movement visible.
+
+Separate fees are separate movements with no `transferId` under this simple
+two-row convention. Currency conversion and multi-leg transfers are outside
+the current model.
+
+## 6. Reading, conversion and query behaviour
+
+Planned implementation uses Python's standard-library `csv`, `datetime` and
+`decimal` modules. No CSV-specific third-party package is required.
+
+| Stage | Required behaviour |
+|---|---|
+| Open | Read with UTF-8 decoding errors treated as failures and `newline=''` |
+| Parse | Use `csv.reader`/`csv.DictReader` with `delimiter=';'`, `quotechar='"'`, `doublequote=True`, `strict=True`; also check header and record widths explicitly |
+| Decode fields | CSV parsing removes syntactic quotes and decodes doubled quotes; do not split raw lines on `;` |
+| Dates | Check exact date pattern, then parse with `datetime.strptime(value, '%d/%m/%Y').date()` |
+| Amounts | Check amount pattern and positivity; convert directly with `Decimal(value.replace(',', '.'))` |
+| Precision | Never convert money through binary `float`; choose Decimal arithmetic precision sufficient for all input values and aggregate totals |
+| References | Compare unchanged account IDs to MongoDB string `_id` values |
+| Nullability | Map only empty `transferId` to absent value; reject missing required values |
+| Filtering | Parse dates before comparing; period start and end are inclusive |
+| Sorting | Sort date values, not raw `DD/MM/YYYY` strings; file order does not define movement identity |
+
+Retain the source file and record/line number when reporting a conversion or
+validation error. Parsing or validation failures must produce a failure result;
+do not silently discard records, round amounts or guess another locale.
+For a readable file, report field/rule errors together where practical. Stop
+when file syntax prevents reliable record boundaries.
+
+Incoming and outgoing totals sum positive amounts separately by direction.
+Signed net movement is `sum(IN) - sum(OUT)`. It is not an account balance:
+opening balances and a complete ledger are not supplied.
+
+An internal transfer contributes to each affected account's movement totals.
+Transfers between the same client's accounts cancel in that client's net
+movement, but remain in its incoming and outgoing totals. Do not describe those
+gross totals as external income or spending without additional classification.
+
+For the proposed customer-total query, start from MongoDB clients/accounts
+and include clients with no matching movements with zero incoming/outgoing
+totals. CSV alone cannot enumerate clients with no recorded activity.
+
+## 7. Complete illustrative CSV content
+
+This specimen references only accounts already declared by
+`database/setup.js`: `A001` through `A006`, all opened on 1 January 2026 in EUR.
+It does not create the file or assert those fixtures are currently loaded in
+a running database.
+
+```csv
+transactionId;accountId;transferId;bookingDate;direction;amount;currency;description
+T001;A001;;31/08/2026;IN;1000,00;EUR;August salary
+T002;A001;TR001;01/09/2026;OUT;100,00;EUR;Transfer to A002
+T003;A002;TR001;01/09/2026;IN;100,00;EUR;Transfer from A001
+T004;A001;;15/09/2026;OUT;25,50;EUR;"Card purchase; café"
+T005;A002;TR002;20/09/2026;OUT;200,00;EUR;Transfer to savings
+T006;A005;TR002;20/09/2026;IN;200,00;EUR;Transfer from current account
+T007;A003;;30/09/2026;OUT;50,00;EUR;Card purchase
+T008;A004;;30/09/2026;IN;1500,00;EUR;September salary
+T010;A004;;30/09/2026;OUT;10,00;EUR;"Card purchase ""example"""
+T009;A001;;01/10/2026;IN;900,00;EUR;October salary
+```
+
+Expected checks for this specimen:
+
+- Ten movements; ten unique transaction IDs.
+- Two complete transfer pairs: `TR001` and `TR002`.
+- `TR002` links two accounts owned by the same client, `C002`.
+- `A006`, owned by `C005`, has no movements.
+- September 2026 includes eight movements; 31 August and 1 October are excluded.
+- Quoted description containing `;` remains one field; doubled quotes decode
+  to literal double quotes in the description.
+
+Expected September totals using the ownership fixtures in `database/setup.js`:
+
+| Client | Total incoming (EUR) | Total outgoing (EUR) |
+|---|---:|---:|
+| C001 | 0.00 | 125.50 |
+| C002 | 300.00 | 200.00 |
+| C003 | 0.00 | 50.00 |
+| C004 | 1500.00 | 10.00 |
+| C005 | 0.00 | 0.00 |
+| **Total** | **1800.00** | **385.50** |
+
+The table uses decimal points for presentation. Stored CSV amounts use decimal
+commas. These are expected results for the specimen only, not execution
+evidence for an implemented query.
+
+## 8. Validation checklist
+
+| Check | Expected outcome |
+|---|---|
+| Exact eight-column header and complete records | Pass |
+| Duplicate `transactionId` | Fail uniqueness check |
+| Empty `transferId` on ordinary movement | Pass |
+| Empty required field or description containing only spaces | Fail completeness check |
+| Invalid UTF-8, missing/extra column, blank record or malformed quoting | Fail file/structure check |
+| `31/02/2026` or `2026-09-15` in `bookingDate` | Fail date validation |
+| `0,00`, `-10,00`, `10.00`, `1.000,00` or `10,001` in `amount` | Fail amount validation |
+| Direction other than exact `IN` or `OUT` | Fail domain check |
+| Currency other than `EUR` | Fail scope/domain check |
+| Unknown account or inconsistent account currency | Fail cross-source check |
+| Booking date before account opening date | Fail temporal consistency check |
+| Transfer ID used once or more than twice | Fail pair-cardinality check |
+| Transfer pair with same account/direction or unequal amounts/currencies | Fail pair-consistency check |
+| Transfer between two different accounts of same client | Pass |
+| Query window includes only one member of an otherwise valid pair | Pass; validate pairing on full file first |
+
+CSV cannot persist database indexes or enforce constraints automatically.
+For the initial small synthetic dataset, a full scan is sufficient. A reader
+may build temporary dictionaries keyed by transaction/account/transfer ID to
+validate and query records; those are not additional persistent sources.
+Assumed frequent reads do not establish production-scale performance.
+
+## 9. Review of existing project artefacts
+
+The current conversation and latest diagrams define the design used above.
+The following older artefacts still require alignment during implementation;
+they were reviewed but are not modified by these specifications.
+
+| Artefact | Finding and effect |
+|---|---|
+| `models/Models.drawio` | Saved conceptual model contains Transaction with `transactionId`, `transferId`, `bookingDate`, `direction`, `amount`, `currency`, `description`, linked to Account. Physical CSV adds `accountId` to implement that relationship. Saved file does not yet contain a labelled CSV logical field box/table. |
+| `logical.txt` | Currently documents MongoDB fields only. CSV logical fields were agreed in the conversation and are implemented by this specification. |
+| `report/report.tex` | Earlier CSV proposal uses six fields: `movement_id`, `account_id`, `booking_date`, `direction`, `amount`, `currency`. Replace that proposal later with the eight-column contract here; retain its UTF-8, semicolon, day/month/year and decimal-comma conventions. |
+| `database/setup.js` | Existing account `_id`, `clientId`, `currency` and `openedAt` fields support the CSV link and validation. Account IDs and ownership used in the specimen match the declared fixtures. Other MongoDB fields still reflect an earlier model; this file does not revise them. |
+| `run.py`, `queries/mongo.js`, `queries/verify.js` | Existing commands execute MongoDB scripts only; no CSV generation, reader, CSV validation or combined query is implemented there. Running the current `verify` command does not verify this CSV contract. |
+| `README.md` and report | Correctly describe CSV as planned. Implementation and measured results must be added before claiming the source complete. |
+| `useCases.txt` | Still contains authentication and application status-history wording superseded by the agreed data-only scope and current-status attribute. No such features are introduced here. |
+
+Remaining implementation work: create/populate the CSV, implement its
+reader/validator and account-reference checks, execute representative queries,
+record actual results, and align the report/README and saved models.
+No existing database or project file needs to be changed to review this model.
+
+## 10. Basis in project brief and lessons
+
+These references justify the modelling and validation approach. Exact column
+formats and business rules above are explicit project assumptions, not claims
+about a teacher-provided banking example.
+
+| Local source | Relevant material | Application here |
+|---|---|---|
+| `../../DMI_Projects_2026_2027.pdf` | Sections 2.2-2.4 and 4.1-4.3 | CSV is permitted; each source needs conceptual/logical/physical models, coherent data, expected query results and reproducible execution. |
+| `../../Aulas/DMI_Lesson1.pdf` | Slides 8-12, model-to-schema workflow | Translate entity/relationship decisions into explicit structures and constraints before loading data. SQL examples illustrate the workflow; they do not require a relational implementation for CSV. |
+| `../../Aulas/DMI_Lesson3.pdf` | Slides 8-11, access patterns and references | Operations motivate the document/reference design at the MongoDB boundary. These slides concern document modelling, not a prescribed CSV format. |
+| `../../Aulas/DMI_Lesson4.pdf` | Slides 8-9, schema heterogeneity and worked example | Document identifier mappings, units and record granularity; distinguish account movements from transfer-level totals. |
+| `../../Aulas/DMI_Lesson15.pdf` | Slides 4, 9-10, data quality, formats/units and constraints | Check completeness, uniqueness, domains and references; explicitly define locale-dependent dates and amounts. |
+
+Slide numbers above are the numbers printed on the slides; PDF viewer page
+numbers may differ. Source paths in this section are relative to `MID-P1/Diogo` in the
+original university workspace. Course PDFs/lessons remain outside the Git
+repository; obtain those references separately on another machine.
+
+## 11. MongoDB deployment and collection layout
+
+This part implements the design choices in `logical.txt` as a **proposed
+physical schema**. It deliberately follows the latest four-collection model,
+not the older field names and status history in `database/setup.js`.
+
+| Property | Specification |
+|---|---|
+| Database | `dmi_p1_bank` |
+| Technology | MongoDB 8.0, matching the existing Compose `mongo:8.0` image |
+| Deployment | Single local, unsharded instance; no replica set configured in this project |
+| Host endpoint | `mongodb://127.0.0.1:27017/dmi_p1_bank` |
+| Physical persistence | Compose named volume `mongodb-data` mounted at container `/data/db`; Docker may prefix the actual volume name with its project name |
+| Collections | `clients`, `accounts`, `employees`, `applications` |
+| Document format | BSON, with exact field types below |
+| Identifier strategy | Supplied string identifiers; no generated ObjectId references |
+| Collation | Default simple comparison; identifiers and domain codes compared exactly and case-sensitively |
+| Schema enforcement | `$jsonSchema`, `validationLevel: 'strict'`, `validationAction: 'error'` |
+| Undeclared fields | Rejected with `additionalProperties: false`; `_id` explicitly declared |
+| References | Ordinary string fields; not automatically enforced foreign keys |
+
+Each entity is stored independently because accounts and applications can grow
+and be queried separately; employees are shared by many applications. No
+account/application ID arrays are duplicated in clients. Status is a single
+current-state attribute: no Status Event collection or `statusHistory` array.
+
+## 12. MongoDB physical fields and BSON types
+
+All fields are required except `applications.employeeId`. Missing employee
+assignment is represented by **omitting the field**, not by `null` or an empty
+string. All other fields reject `null` as well.
+
+| Collection | Field | BSON type / validator alias | Physical constraint |
+|---|---|---|---|
+| clients | `_id` | String / `string` | Unique; pattern `^C[0-9]{3,}$` |
+| clients | `name` | String / `string` | Non-empty; contains at least one non-whitespace character |
+| clients | `email` | String / `string` | Basic address-shape check; not a deliverability guarantee |
+| clients | `annualIncome` | Decimal128 / `decimal` | Finite, non-negative EUR/year amount; whole cents |
+| clients | `employmentStatus` | String / `string` | `employed`, `self-employed`, `unemployed`, `retired`, `student` |
+| accounts | `_id` | String / `string` | Unique; pattern `^A[0-9]{3,}$` |
+| accounts | `clientId` | String / `string` | Pattern `^C[0-9]{3,}$`; references `clients._id` |
+| accounts | `accountType` | String / `string` | `current`, `savings` |
+| accounts | `currency` | String / `string` | `EUR` |
+| accounts | `openedAt` | BSON Date / `date` | Opening calendar date encoded at `00:00:00.000Z` |
+| accounts | `status` | String / `string` | `active`, `blocked`, `closed` |
+| employees | `_id` | String / `string` | Unique; pattern `^E[0-9]{3,}$` |
+| employees | `name` | String / `string` | Non-empty; contains at least one non-whitespace character |
+| applications | `_id` | String / `string` | Unique; pattern `^L[0-9]{3,}$` |
+| applications | `clientId` | String / `string` | Pattern `^C[0-9]{3,}$`; references `clients._id` |
+| applications | `employeeId` | String / `string`, optional | Pattern `^E[0-9]{3,}$` when present; references `employees._id` |
+| applications | `requestedAmount` | Decimal128 / `decimal` | Finite EUR amount at least `0.01`; whole cents |
+| applications | `termMonths` | 32-bit integer / `int` | At least 1; BSON int upper limit applies |
+| applications | `purpose` | String / `string` | Non-empty; contains at least one non-whitespace character |
+| applications | `submittedAt` | BSON Date / `date` | Submission instant expressed in UTC |
+| applications | `status` | String / `string` | `pending`, `approved`, `declined` |
+
+**Money.** Construct monetary values from strings with
+`NumberDecimal('15000.00')`; do not pass through binary floating point.
+Decimal128 does not itself force two fractional digits or finite values.
+The schema below checks BSON type and minimum; a data-validation step must
+also reject non-finite values and fractional cents, without silently rounding.
+Amounts such as `15000`, `15000.0` and `15000.00` have the same numeric meaning;
+format two decimals when presenting them. Initial scope is EUR only.
+
+**Dates.** Use `ISODate(...)` to construct BSON dates, not plain date strings
+or MongoDB's separate internal BSON `timestamp` type. BSON dates represent
+milliseconds from the Unix epoch; UTC is the input/display convention. The
+date-only meaning of `openedAt` is preserved by requiring midnight UTC.
+`submittedAt` keeps its actual time. CSV `bookingDate` remains a calendar date.
+
+**Terms.** The agreed logical rule is a positive integer. The old loader's
+480-month maximum is not carried forward without a business requirement.
+
+## 13. MongoDB validators and collection creation
+
+The following complete `mongosh` schema definition is a reference for the
+revised implementation. It has **not** been applied to the running database.
+Its preflight rejects existing target collections before creating anything;
+it is not a migration command and does not overwrite previous data.
+
+```javascript
+// Reference schema: create only in a database without these collections.
+const physicalBank = db.getSiblingDB('dmi_p1_bank');
+const nonBlankText = { bsonType: 'string', minLength: 1, pattern: '\\S' };
+const physicalSchemas = {
+  clients: {
+    bsonType: 'object',
+    additionalProperties: false,
+    required: ['_id', 'name', 'email', 'annualIncome', 'employmentStatus'],
+    properties: {
+      _id: { bsonType: 'string', pattern: '^C[0-9]{3,}$' },
+      name: nonBlankText,
+      email: {
+        bsonType: 'string',
+        pattern: '^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$'
+      },
+      annualIncome: { bsonType: 'decimal', minimum: NumberDecimal('0.00') },
+      employmentStatus: {
+        bsonType: 'string',
+        enum: ['employed', 'self-employed', 'unemployed', 'retired', 'student']
+      }
+    }
+  },
+  accounts: {
+    bsonType: 'object',
+    additionalProperties: false,
+    required: ['_id', 'clientId', 'accountType', 'currency', 'openedAt', 'status'],
+    properties: {
+      _id: { bsonType: 'string', pattern: '^A[0-9]{3,}$' },
+      clientId: { bsonType: 'string', pattern: '^C[0-9]{3,}$' },
+      accountType: { bsonType: 'string', enum: ['current', 'savings'] },
+      currency: { bsonType: 'string', enum: ['EUR'] },
+      openedAt: { bsonType: 'date' },
+      status: { bsonType: 'string', enum: ['active', 'blocked', 'closed'] }
+    }
+  },
+  employees: {
+    bsonType: 'object',
+    additionalProperties: false,
+    required: ['_id', 'name'],
+    properties: {
+      _id: { bsonType: 'string', pattern: '^E[0-9]{3,}$' },
+      name: nonBlankText
+    }
+  },
+  applications: {
+    bsonType: 'object',
+    additionalProperties: false,
+    required: [
+      '_id', 'clientId', 'requestedAmount', 'termMonths',
+      'purpose', 'submittedAt', 'status'
+    ],
+    properties: {
+      _id: { bsonType: 'string', pattern: '^L[0-9]{3,}$' },
+      clientId: { bsonType: 'string', pattern: '^C[0-9]{3,}$' },
+      employeeId: { bsonType: 'string', pattern: '^E[0-9]{3,}$' },
+      requestedAmount: {
+        bsonType: 'decimal', minimum: NumberDecimal('0.01')
+      },
+      termMonths: { bsonType: 'int', minimum: 1 },
+      purpose: nonBlankText,
+      submittedAt: { bsonType: 'date' },
+      status: { bsonType: 'string', enum: ['pending', 'approved', 'declined'] }
+    }
+  }
+};
+
+const existingPhysicalCollections = physicalBank.getCollectionNames();
+for (const name of Object.keys(physicalSchemas)) {
+  if (existingPhysicalCollections.includes(name)) {
+    throw new Error('Existing collection requires reviewed migration: ' + name);
+  }
+}
+for (const [name, schema] of Object.entries(physicalSchemas)) {
+  assert.commandWorked(physicalBank.createCollection(name, {
+    validator: { $jsonSchema: schema },
+    validationLevel: 'strict',
+    validationAction: 'error'
+  }));
+}
+physicalBank.accounts.createIndex(
+  { clientId: 1 }, { name: 'accounts_by_client' }
+);
+physicalBank.applications.createIndex(
+  { clientId: 1, submittedAt: -1 }, { name: 'applications_by_client_date' }
+);
+physicalBank.applications.createIndex(
+  { employeeId: 1, submittedAt: -1 }, { name: 'applications_by_employee_date' }
+);
+physicalBank.applications.createIndex(
+  { submittedAt: 1, status: 1 }, { name: 'applications_by_date_status' }
+);
+```
+
+`strict`/`error` rejects inserts or updates that violate the declared local
+schema. It does not retrospectively repair existing records or implement
+cross-collection references. `additionalProperties: false` intentionally
+rejects old field names such as `contact`, `employment`, `type` and
+`statusHistory` in their former collections.
+
+## 14. MongoDB index plan
+
+| Collection | Index name | Keys | Purpose |
+|---|---|---|---|
+| All four | `_id_` | `{ _id: 1 }`, unique, automatic | Identify documents and support referenced-ID lookups |
+| accounts | `accounts_by_client` | `{ clientId: 1 }` | Retrieve a client's accounts |
+| applications | `applications_by_client_date` | `{ clientId: 1, submittedAt: -1 }` | Retrieve a client's applications ordered newest first; constrain submission period |
+| applications | `applications_by_employee_date` | `{ employeeId: 1, submittedAt: -1 }` | Retrieve assigned applications for a specified employee and period |
+| applications | `applications_by_date_status` | `{ submittedAt: 1, status: 1 }` | Support the date-range filter before a period summary across all statuses/employees |
+
+All added indexes are non-unique. Repeated `clientId` and `employeeId` values
+are required for one-to-many relationships. Email uniqueness is not a stated
+requirement, so no unique email index is proposed.
+
+Index selection follows the assumed operations and workload. A date-leading
+index supports global period filtering; an employee-leading index supports a
+specific employee filter. Indexes do not precompute grouped counts or sums.
+The query planner can prefer a collection scan for a tiny dataset. Validate
+performance later with `explain('executionStats')`; no speed claim is made.
+
+## 15. Complete BSON construction examples
+
+These are `mongosh` document expressions, not strict JSON: constructor calls
+make BSON types explicit. Records illustrate the latest schema and do not
+replace the existing fixtures. `openedAt` uses the same January 2026 date as
+the CSV specification and current account fixtures.
+
+```javascript
+const physicalExamples = {
+  clients: [{
+    _id: 'C001',
+    name: 'Ana Silva',
+    email: 'ana@example.com',
+    annualIncome: NumberDecimal('30000.00'),
+    employmentStatus: 'employed'
+  }],
+  accounts: [{
+    _id: 'A001',
+    clientId: 'C001',
+    accountType: 'current',
+    currency: 'EUR',
+    openedAt: ISODate('2026-01-01T00:00:00.000Z'),
+    status: 'active'
+  }],
+  employees: [{
+    _id: 'E001',
+    name: 'Joao Costa'
+  }],
+  applications: [{
+    _id: 'L001',
+    clientId: 'C001',
+    employeeId: 'E001',
+    requestedAmount: NumberDecimal('15000.00'),
+    termMonths: NumberInt(60),
+    purpose: 'vehicle purchase',
+    submittedAt: ISODate('2026-09-15T10:30:00.000Z'),
+    status: 'pending'
+  }]
+};
+```
+
+An unassigned application has the same required fields but omits `employeeId`.
+In a future loader, load clients and employees before accounts/applications,
+then validate the completed dataset. The examples are not the full five-client
+dataset needed to reproduce all CSV specimen totals.
+
+## 16. References, cardinalities and cross-source checks
+
+| Stored reference | Target | Required |
+|---|---|---|
+| `accounts.clientId` | `clients._id` | Yes |
+| `applications.clientId` | `clients._id` | Yes |
+| `applications.employeeId` | `employees._id` | When field is present |
+| CSV `accountId` | `accounts._id` | Yes for every CSV movement |
+
+Completed-source validation must also check:
+
+- Every client owns **at least one** account, as agreed for the conceptual model.
+- A client may have no applications; an employee may have no assigned applications.
+- Each application references one client and zero or one employee.
+- Names and purposes are non-blank; email passes the documented basic pattern.
+- Monetary values are finite and have no fractional cents.
+- Account opening dates follow the midnight-UTC convention.
+- CSV account IDs resolve; currency and booking-date rules in section 4 hold.
+
+Example read-only reference audits for the revised schema:
+
+```javascript
+const auditBank = db.getSiblingDB('dmi_p1_bank');
+for (const source of ['accounts', 'applications']) {
+  printjson({ source, missingClients: auditBank[source].aggregate([
+    { $lookup: {
+      from: 'clients', localField: 'clientId', foreignField: '_id', as: 'owner'
+    } },
+    { $match: { owner: { $size: 0 } } },
+    { $project: { _id: 1, clientId: 1 } }
+  ]).toArray() });
+}
+printjson({ missingEmployees: auditBank.applications.aggregate([
+  { $match: { employeeId: { $exists: true } } },
+  { $lookup: {
+    from: 'employees', localField: 'employeeId', foreignField: '_id', as: 'officer'
+  } },
+  { $match: { officer: { $size: 0 } } },
+  { $project: { _id: 1, employeeId: 1 } }
+]).toArray() });
+printjson({ clientsWithoutAccounts: auditBank.clients.aggregate([
+  { $lookup: {
+    from: 'accounts', localField: '_id', foreignField: 'clientId', as: 'accounts'
+  } },
+  { $match: { accounts: { $size: 0 } } },
+  { $project: { _id: 1 } }
+]).toArray() });
+```
+
+Expected audit arrays are empty for a valid completed dataset. These pipelines
+check references/cardinality only; they do not replace local type validation,
+money/date checks or CSV validation. They have not been run against MongoDB.
+
+Updating current status changes only the selected application's `status`
+attribute to an allowed value. Reassignment changes or removes `employeeId`.
+Neither operation preserves history in this model. Employee summaries describe
+current responsibility and current status, not historical officer attribution
+or time taken to decide an application.
+
+MongoDB will not prevent deleting a referenced client/employee merely because
+these string fields exist. Any future data-editing script must preserve the
+relationship rules, and checks must run after dataset changes. There is no
+automatic cascade or transactional constraint across MongoDB and CSV.
+
+For application-period queries use a UTC half-open interval, for example
+`submittedAt >= 2026-09-01T00:00:00Z` and
+`submittedAt < 2026-10-01T00:00:00Z`. This includes the entire last day without
+inventing a final millisecond. CSV date filters use inclusive calendar dates.
+
+## 17. MongoDB verification checklist
+
+| Case | Expected outcome / enforcement |
+|---|---|
+| Required field absent, wrong BSON type or undeclared field | Database validator rejects write |
+| Duplicate `_id` within a collection | Automatic unique `_id_` index rejects write |
+| `annualIncome` or `requestedAmount` stored as BSON double/string | Database validator rejects write |
+| Negative annual income or request below `0.01` | Database validator rejects write |
+| `termMonths` zero, negative or not BSON int | Database validator rejects write |
+| Invalid employment/account/application status | Database validator rejects write |
+| String date instead of BSON Date | Database validator rejects write |
+| Omitted `employeeId` | Allowed; no assignment |
+| `employeeId: null` or empty string | Database validator rejects write |
+| Well-formed ID referring to no target document | Separate reference audit fails |
+| Client has no account after loading is complete | Separate cardinality audit fails |
+| Fractional cents or non-finite money | Separate money audit fails |
+| `openedAt` not at midnight UTC | Separate date-convention audit fails |
+| Valid application changes from pending to approved | Local validator permits update; only current status retained |
+| September query with submission on 1 October at midnight | Excluded by half-open period boundary |
+
+Inspect collection options with `getCollectionInfos()` and indexes with
+`getIndexes()` after the revised implementation is installed. Confirm BSON
+types with `$type`. Fixture counts alone do not establish schema correctness.
+
+## 18. Differences from the existing MongoDB implementation
+
+| Existing artefact/state | Revised physical model |
+|---|---|
+| `clients.contact.email` and `contact.city` | Flat `email`; `city` not required by latest logical model |
+| `clients.employment` with permanent/fixed-term categories | `employmentStatus` with five agreed categories; old categories require an explicit mapping if migrating |
+| `accounts.type` | `accounts.accountType` |
+| Account statuses active/closed only | Adds agreed `blocked` value |
+| No employees collection or application assignment | Adds `employees` and optional `applications.employeeId` |
+| Mandatory embedded `statusHistory` | Removed; current `status` only |
+| Application terms limited to 480 months | Positive BSON int; no unagreed business maximum |
+| Index on status/requested amount | Proposed indexes follow client, employee and period operations in section 14 |
+| Existing insert-only fixture setup | Preserves old records; cannot convert them to this schema by simply rerunning setup |
+
+The current `run.py setup` and `run.py verify` commands still use old scripts.
+They do not install or validate this revised specification. Applying stricter
+validators alone does not rename fields, create employee assignments or repair
+existing documents. Review migration/fixture updates separately; no data is
+dropped, transformed or loaded by this task.
+
+## 19. Physical diagrams and how to use them
+
+| File | Purpose |
+|---|---|
+| `models/PhysicalModels.drawio` | Editable two-page drawing: MongoDB and CSV physical models |
+| `models/mongodb-physical.svg` | Vector diagram of four collections, BSON types, mandatory/optional fields, proposed indexes and references |
+| `models/csv-physical.svg` | Vector diagram of stored text columns, exact file conventions, external MongoDB account reference and transfer-pair rule |
+
+Open the `.drawio` file in diagrams.net/draw.io to edit shapes and labels.
+SVGs can be inserted into a report without losing text sharpness. Existing
+`models/Models.drawio` remains the conceptual/logical drawing and is unchanged.
+The new diagrams describe proposed physical specifications, not proof of a
+running implementation. Their reference arrows do not imply database-enforced
+foreign keys or persisted CSV indexes.
+
+## 20. MongoDB references
+
+The lessons listed in section 10 establish the modelling approach. MongoDB 8.0
+documentation was checked for implementation details on 13 November 2026:
+
+- [Specify JSON Schema Validation](https://www.mongodb.com/docs/v8.0/core/schema-validation/specify-json-schema/): `$jsonSchema`, BSON type validation and collection creation.
+- [JSON Schema tips](https://www.mongodb.com/docs/v8.0/core/schema-validation/specify-json-schema/json-schema-tips/): `_id` with `additionalProperties: false`, and omitted fields versus `null`.
+- [BSON types](https://www.mongodb.com/docs/v8.0/reference/bson-types/): string, Decimal128, 32-bit integer and BSON Date representations.
+- [Validation levels](https://www.mongodb.com/docs/v8.0/core/schema-validation/specify-validation-level/): strict validation applies to inserts/updates; it does not repair previous records.
+- [Indexing strategies](https://www.mongodb.com/docs/v8.0/applications/indexes/): choose candidate indexes from operations and validate their behaviour against actual workloads.
+
+Field names, allowed banking statuses, identifier patterns, whole-cent amounts
+and the midnight-UTC opening-date convention are explicit project choices.

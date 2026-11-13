@@ -1,0 +1,44 @@
+{
+  "provenance": "Hand-specified regression inputs, aligned to the current logical model. Money in this input uses integer cents; exports convert to canonical Extended JSON/CSV.",
+  "clients": [
+    {"_id":"C001","name":"Joana Martins","email":"c001@example.invalid","annualIncome":2850000,"employmentStatus":"employed"},
+    {"_id":"C002","name":"Miguel Ferreira","email":"c002@example.invalid","annualIncome":4900000,"employmentStatus":"employed"},
+    {"_id":"C003","name":"Inês Ribeiro","email":"c003@example.invalid","annualIncome":2400000,"employmentStatus":"self-employed"},
+    {"_id":"C004","name":"Tiago Costa","email":"c004@example.invalid","annualIncome":3100000,"employmentStatus":"employed"},
+    {"_id":"C005","name":"Ana Sousa","email":"c005@example.invalid","annualIncome":3600000,"employmentStatus":"employed"}
+  ],
+  "employees": [
+    {"_id":"E001","name":"João Costa"},
+    {"_id":"E002","name":"Marta Ribeiro"}
+  ],
+  "accounts": [
+    {"_id":"A001","clientId":"C001","accountType":"current","currency":"EUR","openedAt":"2026-01-01T00:00:00.000Z","status":"active"},
+    {"_id":"A002","clientId":"C002","accountType":"current","currency":"EUR","openedAt":"2026-01-01T00:00:00.000Z","status":"active"},
+    {"_id":"A003","clientId":"C003","accountType":"current","currency":"EUR","openedAt":"2026-01-01T00:00:00.000Z","status":"active"},
+    {"_id":"A004","clientId":"C004","accountType":"current","currency":"EUR","openedAt":"2026-01-01T00:00:00.000Z","status":"active"},
+    {"_id":"A005","clientId":"C002","accountType":"savings","currency":"EUR","openedAt":"2026-01-01T00:00:00.000Z","status":"active"},
+    {"_id":"A006","clientId":"C005","accountType":"current","currency":"EUR","openedAt":"2026-01-01T00:00:00.000Z","status":"active"}
+  ],
+  "applications": [
+    {"_id":"L001","clientId":"C001","requestedAmount":1200000,"termMonths":48,"purpose":"home_improvement","submittedAt":"2026-09-01T09:00:00.000Z","status":"pending"},
+    {"_id":"L002","clientId":"C002","employeeId":"E001","requestedAmount":2500000,"termMonths":60,"purpose":"education","submittedAt":"2026-09-02T09:00:00.000Z","status":"approved"},
+    {"_id":"L003","clientId":"C003","employeeId":"E002","requestedAmount":900000,"termMonths":36,"purpose":"debt_consolidation","submittedAt":"2026-09-03T09:00:00.000Z","status":"approved"},
+    {"_id":"L004","clientId":"C004","employeeId":"E001","requestedAmount":1800000,"termMonths":60,"purpose":"home_improvement","submittedAt":"2026-09-04T09:00:00.000Z","status":"pending"},
+    {"_id":"L005","clientId":"C004","employeeId":"E002","requestedAmount":3200000,"termMonths":72,"purpose":"debt_consolidation","submittedAt":"2026-09-05T09:00:00.000Z","status":"declined"},
+    {"_id":"L006","clientId":"C002","employeeId":"E001","requestedAmount":1500000,"termMonths":48,"purpose":"education","submittedAt":"2026-09-06T09:00:00.000Z","status":"approved"}
+  ],
+  "transactionUnits": [
+    [{"transactionId":"T001","accountId":"A001","transferId":"","bookingDate":"2026-08-31","direction":"IN","amount":100000,"currency":"EUR","description":"August salary"}],
+    [{"transactionId":"T002","accountId":"A001","transferId":"TR001","bookingDate":"2026-09-01","direction":"OUT","amount":10000,"currency":"EUR","description":"Transfer to A002"},{"transactionId":"T003","accountId":"A002","transferId":"TR001","bookingDate":"2026-09-01","direction":"IN","amount":10000,"currency":"EUR","description":"Transfer from A001"}],
+    [{"transactionId":"T004","accountId":"A001","transferId":"","bookingDate":"2026-09-15","direction":"OUT","amount":2550,"currency":"EUR","description":"Card purchase; café"}],
+    [{"transactionId":"T005","accountId":"A002","transferId":"TR002","bookingDate":"2026-09-20","direction":"OUT","amount":20000,"currency":"EUR","description":"Transfer to savings"},{"transactionId":"T006","accountId":"A005","transferId":"TR002","bookingDate":"2026-09-20","direction":"IN","amount":20000,"currency":"EUR","description":"Transfer from current account"}],
+    [{"transactionId":"T007","accountId":"A003","transferId":"","bookingDate":"2026-09-30","direction":"OUT","amount":5000,"currency":"EUR","description":"Card purchase"}],
+    [{"transactionId":"T008","accountId":"A004","transferId":"","bookingDate":"2026-09-30","direction":"IN","amount":150000,"currency":"EUR","description":"September salary"}],
+    [{"transactionId":"T010","accountId":"A004","transferId":"","bookingDate":"2026-09-30","direction":"OUT","amount":1000,"currency":"EUR","description":"Card purchase \"example\""}],
+    [{"transactionId":"T009","accountId":"A001","transferId":"","bookingDate":"2026-10-01","direction":"IN","amount":90000,"currency":"EUR","description":"October salary"}]
+  ],
+  "expected": {
+    "BQ1": [{"_id":"L004","requestedAmountEUR":"18000.00","status":"pending"},{"_id":"L005","requestedAmountEUR":"32000.00","status":"declined"}],
+    "BQ2": [{"clientId":"C001","totalIncomingEUR":"0.00","totalOutgoingEUR":"125.50"},{"clientId":"C002","totalIncomingEUR":"300.00","totalOutgoingEUR":"200.00"},{"clientId":"C003","totalIncomingEUR":"0.00","totalOutgoingEUR":"50.00"},{"clientId":"C004","totalIncomingEUR":"1500.00","totalOutgoingEUR":"10.00"},{"clientId":"C005","totalIncomingEUR":"0.00","totalOutgoingEUR":"0.00"}]
+  }
+}

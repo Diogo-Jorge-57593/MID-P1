@@ -1,0 +1,333 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs,longtable,tabularx}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage[hidelinks]{hyperref}
+\setlength{\emergencystretch}{3em}
+\lstset{basicstyle=\ttfamily\small,breaklines=true,columns=fullflexible,frame=single}
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+\title{Data Modelling and Integration\\Project P1: Heterogeneous Data Sources\\Banking Subtopic}
+\author{Diogo Jorge -- 57593\\Group 13}
+\date{Academic year 2026/2027\\Initial working draft -- 12 November 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+This draft presents the banking contribution to Project P1. MongoDB stores
+customer profiles, bank accounts and credit applications. A second, planned
+CSV source will represent account movements. The sources are designed to
+support later virtual integration with the startup investment and fintech
+subtopics listed in the group's theme file. This document distinguishes
+implemented artefacts, proposed requirements and outstanding group decisions.
+It is not a completed group submission.
+\end{abstract}
+\tableofcontents
+\newpage
+
+\section{Domain description and project objectives}
+The first sub topic selected for project P1 is banking. The domain includes the 
+data modelling part of a banking app, where customers and emplpoyees will interact
+with the same data. This serves as a simplified subto
+
+The project brief requires each student to design, implement and populate two
+heterogeneous sources and prepare their integration in P2~\cite{brief}.
+The banking subtopic addresses the question: how can an analyst inspect a
+customer's banking relationship and credit requests, and later relate these
+to recorded account movements and information from complementary subtopics?
+
+This contribution uses MongoDB and CSV. Its objectives are to model coherent
+banking entities, provide reproducible synthetic data, define representative
+queries and identify the heterogeneity that future integration must resolve.
+Credit decisions are stored as sample administrative outcomes; this prototype
+does not calculate creditworthiness or implement an operational banking system.
+
+\textbf{Group clarification required.} The brief specifies groups of two,
+whereas the local theme file lists Diogo Jorge (Bank), Oleksii Nikitenko
+(Startup investment) and Tiago Vailant (Fintech). Confirm the authorised group
+composition and query/source totals with the teacher before finalising the
+group report. Do not silently extrapolate the two-student requirements.
+
+\section{Stakeholders and requirements}
+The stakeholders below are proposed personas. No interviews or expert
+validation have been conducted for this draft.
+\begin{description}[style=nextline]
+\item[Bank analyst] Inspects customer accounts and credit applications.
+\item[Credit officer] Reviews requests and their status history.
+\item[Integration developer] Needs stable identifiers, documented schemas and
+consistent interpretation of dates, statuses and monetary amounts.
+\item[Teacher/reviewer] Needs executable scripts, expected results and a clear
+statement of each student's work.
+\end{description}
+
+\subsection{Functional requirements}
+\begin{enumerate}[label=FR\arabic*.]
+\item Retrieve a customer's credit applications and their current statuses.
+\item Retrieve accounts belonging to a customer.
+\item Summarise application counts and requested amounts by status.
+\item Preserve the submission event and subsequent application status events.
+\item In the next phase, relate CSV movements to MongoDB accounts and customers.
+\end{enumerate}
+FR1--FR3 have executable read queries or direct indexed access in the MongoDB
+model. FR4 is represented in fixtures; a production status-update service is
+outside this initial implementation. FR5 remains planned.
+
+\subsection{Non-functional requirements}
+\begin{itemize}
+\item Reproducibility: deterministic fixtures and documented Docker commands.
+\item Data quality: mandatory fields, type/status validation, unique entity
+identifiers and explicit reference checks.
+\item Monetary precision: Decimal128 for income and requested amounts; EUR
+is the sole currency in the initial scope.
+\item Privacy: fictional records and reserved example email addresses only.
+\item Isolation: a dedicated database, \texttt{dmi\_p1\_bank}, without changes
+to the existing assessed exercises.
+\end{itemize}
+
+\subsection{Use case model}
+\begin{tabularx}{\textwidth}{@{}l l X@{}}
+\toprule
+ID & Actor & Use case and result\\\midrule
+UC1 & Analyst & Select customer; view ordered application IDs, amounts and statuses.\\
+UC2 & Analyst & Select customer; view related accounts.\\
+UC3 & Credit officer & View application status and embedded history.\\
+UC4 & Analyst & Summarise credit requests by status.\\
+UC5 & Analyst & Combine accounts with CSV movements; planned for next phase.\\
+\bottomrule
+\end{tabularx}
+UC1--UC4 depend on an available MongoDB source. UC5 additionally depends on
+CSV availability and valid account references. These are analytical use cases;
+authentication and a user interface are not implemented.
+
+\section{Glossary and domain constraints}
+\begin{description}[style=nextline]
+\item[Client] Fictional bank customer identified by \texttt{Cnnn}.
+\item[Account] Account identified by \texttt{Annn}, owned by exactly one client.
+Joint ownership is excluded from this initial model.
+\item[Credit application] Request identified by \texttt{Lnnn}, associated with
+one client. Approval is not equivalent to disbursement.
+\item[Requested amount] Principal requested in EUR; not an outstanding balance.
+\item[Status history] Ordered events recording the application's state.
+\item[Movement] Planned CSV record of an incoming or outgoing account amount.
+\end{description}
+One client may have zero or more accounts and applications. Amounts requested
+must be positive; terms range from 1 to 480 months. Application statuses are
+\texttt{pending}, \texttt{approved} and \texttt{declined}. All fixture events
+use UTC. The final history event must agree with the current status; the
+verification script checks this condition. MongoDB collection validators do
+not implement foreign keys; references are checked separately.
+
+\section{Source selection and responsibility}
+\begin{tabularx}{\textwidth}{@{}l l X@{}}
+\toprule
+Source & Responsibility & Justification and state\\\midrule
+MongoDB & Diogo Jorge & Nested customer contact and application history;
+schema, fixtures and read queries implemented.\\
+CSV movements & Diogo Jorge & Flat, portable export representing an autonomous
+movement source; contract proposed, data and loader not yet implemented.\\
+Other subtopics & Group members & Source technologies and contracts require
+group agreement; no implementation claimed here.\\
+\bottomrule
+\end{tabularx}
+MongoDB suits documents accessed together: contact fields are embedded in the
+customer, and the small application lifecycle is embedded in the application.
+Accounts and applications remain separate collections because their counts
+and access patterns differ. Schema validation constrains a flexible document
+model~\cite{validation}. Decimal128 preserves decimal monetary representation
+without converting it to binary floating-point~\cite{decimal}.
+The choice demonstrates heterogeneous modelling; it does not imply MongoDB
+is preferable for all banking workloads.
+
+\section{MongoDB models}
+\subsection{Conceptual model}
+\begin{center}
+\begin{tabular}{c c c}
+Client & $1\longrightarrow 0..*$ & Account\\
+Client & $1\longrightarrow 0..*$ & Credit application\\
+Credit application & $1\longrightarrow 1..*$ & Status event (embedded)\\
+Account & $1\longrightarrow 0..*$ & Movement (future CSV)\\
+\end{tabular}
+\end{center}
+All account/application references identify an existing client. A client such
+as C005 may have an account without any credit application, supporting an
+important empty-result case.
+
+\subsection{Logical model}
+\begin{description}[style=nextline]
+\item[clients] \texttt{\_id}, name, contact\{email, city\}, annualIncome,
+employment.
+\item[accounts] \texttt{\_id}, clientId, type, currency, openedAt, status.
+\item[applications] \texttt{\_id}, clientId, requestedAmount, termMonths,
+purpose, status, submittedAt, statusHistory[\{status, at\}].
+\end{description}
+Identifiers and enumerations are strings, timestamps are BSON dates, money
+is BSON Decimal128 and termMonths is a BSON integer. No account balance is
+stored: an application request and a movement ledger must not be mistaken
+for a reliable account balance.
+
+\subsection{Physical model}
+The existing Compose configuration supplies MongoDB 8.0 on localhost port
+27017, with persistent data in a Docker named volume. The setup script creates
+or updates strict, error-producing JSON Schema validators in the dedicated
+database. Native \texttt{\_id} indexes ensure unique identifiers. Additional
+indexes support accounts by client, applications by client and submission
+date, and applications by status and descending requested amount.
+The executable schema is maintained in \texttt{database/setup.js}; this is
+the authoritative field/type definition for the initial source.
+
+\section{Synthetic data and quality}
+Fixtures comprise five clients, six accounts and six applications, generated
+from explicit deterministic lists. Names and profiles are fictional examples.
+The seed includes multiple accounts for C002, multiple requests for C004,
+a customer with no requests (C005), and all three application statuses.
+Income and request values are illustrative and have no empirical provenance.
+The small dataset demonstrates behaviour, not performance or statistical
+representativeness. Future data expansion must cover the agreed group queries.
+
+The setup uses insert-only upserts: repeated execution inserts missing fixture
+IDs but preserves existing records. It neither drops the database nor resets
+edited values. Consequently, expected results below assume unmodified fixtures.
+Verification checks fixture counts, Q1 IDs, status aggregates, dangling client
+references, last-history/current-status agreement and rejection of an incomplete
+application. It does not establish compliance with banking regulations or
+guarantee reference integrity for later manual edits.
+
+\section{Queries and expected results}
+The brief defines two queries per student and eight cross-subtopic queries
+for a two-student group: twelve total, with four per difficulty level.
+This draft proposes the bank's two individual queries. Extra MongoDB
+demonstrations are supporting evidence, not additions to that required total.
+
+\subsection{Q1: Customer credit applications -- simple}
+Which applications did C004 submit, and what are their amounts and statuses?
+This uses filtering, projection and ordering within one collection.
+\begin{lstlisting}
+bank.applications.find(
+  { clientId: 'C004' },
+  { _id: 1, requestedAmount: 1, status: 1 }
+).sort({ _id: 1 })
+\end{lstlisting}
+\begin{center}
+\begin{tabular}{l r l}
+\toprule
+Application & Requested amount (EUR) & Status\\\midrule
+L004 & 18000 & pending\\
+L005 & 32000 & declined\\\bottomrule
+\end{tabular}
+\end{center}
+C005 must return an empty result, not an error.
+
+\subsection{Q2: Customer movement totals -- intermediate, planned}
+For each customer, what are the total incoming and outgoing movements during
+September 2026? This will join MongoDB accounts to CSV movements on account
+identifier, filter dates and group by client. Proposed output fields are
+clientId, totalIncomingEUR and totalOutgoingEUR. Include clients with no
+movements with zero totals. Exact expected values remain pending CSV fixtures;
+this query is not yet executable.
+
+\subsection{Supporting MongoDB demonstrations}
+\texttt{queries/mongo.js} also aggregates requested principal by status and
+joins applications to client names. Expected status aggregates are:
+\begin{center}
+\begin{tabular}{l r r}
+\toprule
+Status & Count & Total requested (EUR)\\\midrule
+approved & 3 & 49000\\
+declined & 1 & 32000\\
+pending & 2 & 30000\\\bottomrule
+\end{tabular}
+\end{center}
+The lookup demonstration returns six applications, each with its matching
+client name. These values are derived from fixtures; execution evidence must
+be recorded after running the verification command.
+
+\section{Initial heterogeneity and integration plan}
+The proposed CSV contract uses UTF-8, semicolon separators and columns
+\texttt{movement\_id}, \texttt{account\_id}, \texttt{booking\_date},
+\texttt{direction}, \texttt{amount}, \texttt{currency}. Dates use
+\texttt{DD/MM/YYYY}, direction uses \texttt{IN}/\texttt{OUT}, amounts use a
+decimal comma without thousands separators, and all amounts are positive EUR.
+This contract is a proposal, not a completed source.
+
+\begin{tabularx}{\textwidth}{@{}l X X@{}}
+\toprule
+Conflict & Source representations & Proposed P2 rule\\\midrule
+Structural & Nested MongoDB documents versus flat CSV rows & Expose Client,
+Account, Application and Movement entities in a global model.\\
+Syntactic & BSON date versus CSV day/month/year & Parse CSV strictly as a
+calendar date; retain distinction from UTC event timestamps.\\
+Syntactic & Decimal128 versus comma-decimal text & Parse exact decimal values;
+avoid binary floating-point arithmetic.\\
+Semantic & CSV IN/OUT movement direction & Map to incoming/outgoing; preserve
+positive amount and explicit currency.\\
+Naming & \texttt{\_id} versus \texttt{account\_id} & Map to global accountId
+after validating references.\\
+\bottomrule
+\end{tabularx}
+Cross-subtopic identity resolution needs an agreed synthetic organisation or
+party identifier. Matching solely by names is not acceptable. No mapping to
+the investment/fintech sources is claimed until their contracts are known.
+The eight cross-subtopic queries and final difficulty distribution require
+joint design; they must include meaningful relationships across members.
+
+\section{Installation and execution}
+Prerequisites are Python, Docker Desktop with a running Linux engine and the
+included Compose configuration. From the MID-P1 repository root:
+\begin{lstlisting}
+docker compose -f Diogo/compose.yaml up -d mongodb mongo-web
+python Diogo/run.py setup
+python Diogo/run.py queries
+python Diogo/run.py verify
+\end{lstlisting}
+The first command starts MongoDB and the existing mongo-express service.
+The project runner invokes mongosh inside the MongoDB container and requires
+no Python database packages. Verification must exit with code zero and print
+\texttt{PASS}. Tests are intended for the supplied fixture state; edited or
+additional records can legitimately require adjusted expectations.
+
+Compile the report from \texttt{Diogo/report} using:
+\begin{lstlisting}
+pdflatex -interaction=nonstopmode -halt-on-error report.tex
+pdflatex -interaction=nonstopmode -halt-on-error report.tex
+\end{lstlisting}
+
+\section{Current status and remaining work}
+Implemented artefacts are the MongoDB schema, insert-only fixture loader,
+queries, verification script, Python command runner and this LaTeX draft.
+At drafting time Docker's engine was unavailable; MongoDB execution results
+have not been verified. Expected outputs are fixture-derived, not measured.
+
+Before P1 submission: confirm group composition; validate requirements with
+stakeholders or clearly state their assumed nature; agree shared identifiers;
+implement and populate CSV; execute Q2; define all group queries with expected
+results; complete other members' source descriptions; run and record all
+checks; finish contribution statements and review the final PDF. The main
+report body must remain within the brief's 15-page limit.
+
+\section{Contribution and generative AI declaration}
+The local theme file associates the banking subtopic with Diogo Jorge, 57593.
+Personal review, changes and validation must be recorded before submission;
+this draft does not claim completed student verification.
+
+OpenAI Codex assisted with initial source design, synthetic examples,
+implementation scripts, verification logic and report drafting. Generated
+artefacts require critical review and execution by the student. No stakeholder
+interviews, empirical banking data or successful database runs are claimed.
+The final declaration must describe the actual extent of AI use and the
+verification performed by each contributor.
+
+\begin{thebibliography}{9}
+\bibitem{brief} Universidade do Algarve. \emph{Data Modelling and Integration:
+Projects P1 and P2, 2026/2027}. Local project brief,
+\texttt{DMI\_Projects\_2026\_2027.pdf}, sections 2, 4 and 6.
+\bibitem{validation} MongoDB. \emph{Schema Validation}.
+\url{https://www.mongodb.com/docs/manual/core/schema-validation/}.
+Accessed 12 November 2026.
+\bibitem{decimal} MongoDB. \emph{BSON Decimal128 Specification}.
+\url{https://github.com/mongodb/specifications/blob/master/source/bson-decimal128/decimal128.md}.
+Accessed 12 November 2026.
+\end{thebibliography}
+\end{document}

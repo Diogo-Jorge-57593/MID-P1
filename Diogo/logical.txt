@@ -1,0 +1,23 @@
+| Collection       | Field              | Logical Type      | Required | Constraint / Reference                                |
+| ---------------- | ------------------ | ----------------- | -------- | ----------------------------------------------------- |
+| **clients**      | `_id`              | String identifier | Yes      | Unique within collection                              |
+| clients          | `name`             | String            | Yes      | Non-empty                                             |
+| clients          | `email`            | String            | Yes      | Valid email format                                    |
+| clients          | `annualIncome`     | Decimal           | Yes      | ≥ 0; EUR per year                                     |
+| clients          | `employmentStatus` | String            | Yes      | employed, self-employed, unemployed, retired, student |
+| **accounts**     | `_id`              | String identifier | Yes      | Unique within collection                              |
+| accounts         | `clientId`         | String identifier | Yes      | References `clients._id`                              |
+| accounts         | `accountType`      | String            | Yes      | current, savings                                      |
+| accounts         | `currency`         | String            | Yes      | EUR in initial scope                                  |
+| accounts         | `openedAt`         | Date              | Yes      | Valid calendar date                                   |
+| accounts         | `status`           | String            | Yes      | active, blocked, closed                               |
+| **employees**    | `_id`              | String identifier | Yes      | Unique within collection                              |
+| employees        | `name`             | String            | Yes      | Non-empty                                             |
+| **applications** | `_id`              | String identifier | Yes      | Unique within collection                              |
+| applications     | `clientId`         | String identifier | Yes      | References `clients._id`                              |
+| applications     | `employeeId`       | String identifier | No       | References `employees._id`; omitted when unassigned   |
+| applications     | `requestedAmount`  | Decimal           | Yes      | > 0; EUR                                              |
+| applications     | `termMonths`       | Integer           | Yes      | > 0                                                   |
+| applications     | `purpose`          | String            | Yes      | Non-empty                                             |
+| applications     | `submittedAt`      | Timestamp         | Yes      | Valid timestamp representing UTC instant              |
+| applications     | `status`           | String            | Yes      | pending, approved, declined                           |

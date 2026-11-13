@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "seed": 42,
+  "idWidth": 6,
+  "currency": "EUR",
+  "observationStart": "2026-01-01",
+  "observationEnd": "2026-10-31",
+  "accountOpeningStart": "2025-01-01",
+  "accountOpeningEnd": "2026-08-31",
+  "queryPeriodStart": "2026-09-01",
+  "queryPeriodEnd": "2026-09-30",
+  "stageOffsets": {"plan": 10, "clients": 11, "employees": 22, "accounts": 33, "applications": 44, "transactions": 55},
+  "clients": {
+    "count": 500,
+    "employmentCounts": {"employed": 325, "self-employed": 50, "retired": 50, "student": 50, "unemployed": 25},
+    "incomeBandsCents": {
+      "employed": [[1500000, 2499999, 25], [2500000, 4499999, 55], [4500000, 9000000, 20]],
+      "self-employed": [[800000, 1999999, 25], [2000000, 5999999, 55], [6000000, 14000000, 20]],
+      "retired": [[600000, 1199999, 30], [1200000, 2499999, 55], [2500000, 4500000, 15]],
+      "student": [[0, 0, 35], [1, 600000, 45], [600001, 1800000, 20]],
+      "unemployed": [[0, 0, 45], [1, 900000, 40], [900001, 1800000, 15]]
+    }
+  },
+  "employees": {"count": 25},
+  "accounts": {
+    "ownershipCounts": {"1": 100, "2": 300, "3": 100},
+    "statusCounts": {"active": 900, "blocked": 50, "closed": 50},
+    "extraAccountTypeWeights": {"current": 25, "savings": 75}
+  },
+  "applications": {
+    "count": 1500,
+    "clientsWithoutApplications": 100,
+    "statusCounts": {"approved": 825, "declined": 375, "pending": 300},
+    "unassignedPending": 150,
+    "purposeCounts": {"vehicle": 525, "education": 225, "home_improvement": 375, "personal_expense": 225, "debt_consolidation": 150},
+    "purposes": {
+      "vehicle": {"amountCents": [300000, 4500000], "terms": [12, 24, 36, 48, 60, 72]},
+      "education": {"amountCents": [100000, 3000000], "terms": [12, 24, 36, 48, 60, 84]},
+      "home_improvement": {"amountCents": [500000, 12000000], "terms": [24, 36, 60, 84, 120, 180, 240]},
+      "personal_expense": {"amountCents": [50000, 2000000], "terms": [6, 12, 24, 36, 48]},
+      "debt_consolidation": {"amountCents": [200000, 5000000], "terms": [12, 24, 36, 48, 60, 84]}
+    },
+    "pendingStart": "2026-08-01",
+    "decidedEnd": "2026-10-15",
+    "unassignedStart": "2026-10-16"
+  },
+  "transactions": {
+    "recurringClients": {"employed": 150, "retired": 30},
+    "recurringDay": 25,
+    "recurringVariationPercent": 3,
+    "ordinaryCounts": {"deposit": 200, "purchase": 3000, "withdrawal": 500, "fee": 500},
+    "amountRangesCents": {"deposit": [2000, 1000000], "purchase": [50, 500000], "withdrawal": [1000, 50000], "fee": [50, 1500], "transfer": [100, 2000000]},
+    "withdrawalStepCents": 1000,
+    "sameClientTransfers": 300,
+    "differentClientTransfers": 700,
+    "clientsWithoutPeriodMovements": 25,
+    "clientsWithoutAnyMovements": 5,
+    "unusedAccountsMinimum": 20,
+    "boundaryDates": ["2026-08-31", "2026-09-01", "2026-09-30", "2026-10-01"]
+  }
+}

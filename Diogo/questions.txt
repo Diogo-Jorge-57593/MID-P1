@@ -1,0 +1,33 @@
+### Questions
+1. Select a relevant application domain and define the problem to be addressed:
+    * The application domain is banking, I will focus on customes records and accounts, transactions and credit applications
+    * Banking information is often spread across multiple heterogenous sources, customer profiles, accounts and applications for credit will be stored as documents inside MongoDB, and movements/transactions will be stored in csv files, extracted from another source.
+    * The separation makes it hard to obtain one single view of a customers identity and activity
+    * We will model and populate these sources, prepare the integration layer between them and relate them
+
+2. Identify the stakeholders and formulate user requirements with input from domain experts or relevant stakeholders whenever possible
+    * The stakeholders may be inthis case: the bank customer, who should seek to understand and review it´s own activity
+    * Credit officer, who will need to review information in order to accept/deny a credit 
+    * Bank manager, who will need to monitor banking activity, credit´s accepted/denied or pending, who may need to review an employees performance, allowed or denied credits or time taken in each vredit approval
+
+
+### Deconstruction: 
+* What information is most useful when answering customer enquires? 
+    * Account and transaction details: amount, date, description and processing status. [1]
+    * Related dispute details and claim status, where applicable. [1]
+* Which tasks require information from multiple systems?
+    * Investigating disputed transactions: account, transaction and claim information. [1]
+    * Reviewing credit applications: applicant information, income evidence, expenses and credit liabilities. [2]
+    * Project requirement: link MongoDB accounts to CSV transactions through account IDs (inferred).
+* What information is most useful when reviewing a credit application?
+    * Age, employment situation, regular income and expenses. [2]
+    * Existing credit commitments and potential changes affecting repayment capacity. [2]
+    * Documents confirming information is accurate and current. [2]
+
+Note: Answers summarise published guidance; no direct stakeholder interviews were conducted.
+
+### Sources
+[1] Bank of America - How to Dispute a Charge and Check the Status of Your Claim
+https://www.bankofamerica.com/help/how-to-dispute-a-charge/
+[2] Banco de Portugal - Avaliacao da solvabilidade
+https://clientebancario.bportugal.pt/pt-pt/avaliacao-da-solvabilidade

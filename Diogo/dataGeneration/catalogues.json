@@ -1,0 +1,15 @@
+{
+  "provenance": "Frozen fictional-name combinations and movement templates drafted with AI assistance; not sampled customer records.",
+  "firstNames": ["Ana", "João", "Inês", "Miguel", "Beatriz", "Tomás", "Mariana", "Diogo", "Leonor", "Rafael", "Sofia", "Tiago", "Carolina", "André", "Marta", "Pedro", "Catarina", "Francisco", "Rita", "Daniel", "Teresa", "Bruno", "Laura", "Gonçalo"],
+  "lastNames": ["Silva", "Costa", "Martins", "Ferreira", "Ribeiro", "Sousa", "Pereira", "Almeida", "Carvalho", "Rodrigues", "Lopes", "Fernandes", "Gomes", "Santos", "Barbosa", "Pinto", "Correia", "Teixeira", "Nunes", "Mendes", "Cardoso", "Rocha", "Azevedo", "Moreira"],
+  "descriptions": {
+    "employed": ["Salário - empregador fictício", "Monthly salary - synthetic employer"],
+    "retired": ["Pensão - pagamento fictício", "Monthly pension - synthetic payment"],
+    "deposit": ["Cash deposit", "Incoming external payment", "Depósito em numerário"],
+    "purchase": ["Card purchase; café", "Card purchase \"example\"", "Supermarket purchase", "Compra de livros", "Transport payment", "Utilities payment"],
+    "withdrawal": ["ATM cash withdrawal", "Levantamento em numerário"],
+    "fee": ["Account maintenance fee", "Comissão bancária"],
+    "transferOut": ["Transfer to {accountId}"],
+    "transferIn": ["Transfer from {accountId}"]
+  }
+}

@@ -1,0 +1,57 @@
+| ID | Actor | Use Case | Expected result |
+| -------- | -------- | -------- | -------- |
+| UC1  | Client  | View client account  |Lists account associated with the authenticaded client   |
+| UC2  | Client  | Consult account transactions  |List movements for own account and selected period.   |
+| UC3  | Credit officer  | Review credit application  | Retrieve all pertinent information about a client and it´s credit application |
+| UC4  | Credit officer  | Update application status  | Update the status of an application |   
+| UC5  | Bank Manager  | Summarise appilcation status  | Show application counts and total requested amounts by status for selected period, aggregate amounts in #/money |
+| UC6  | Bank Manager  | Summarise employee perfomance | List employees by approved/denied/pending credits #/value |
+
+### Official banking sources - requirements to complete later
+
+| Official source | What it supports |
+|---|---|
+| [Millennium bcp - Gerir a minha conta](https://www.millenniumbcp.pt/ajuda/homebanking/gerir-conta) | Functional: consulting account balances and movements. Supports UC1-UC2. |
+| [Millennium bcp - Condicoes gerais dos canais](https://ind.millenniumbcp.pt/pt/info/Pages/CondicoesGerais_Canais.aspx) | Security and traceability: personal access credentials and digital records of customer access/instructions. |
+| [Bank of America - Digital banking](https://info.bankofamerica.com/en/digital-banking?subCampCode=50573) | Non-functional: encryption and secure connections protecting information in transit. |
+
+Note: Requirements are derived from published documentation, not stakeholder interviews. Reproducibility is a project requirement; internal credit workflows and employee summaries need separate justification.
+
+
+| ID | Functional requirement | Related use case |
+|---|---|---|
+| FR1 | System will retrieve a list of all accounts belonging to a selected client. | UC1 |
+| FR2 | System will retrieve transactions for selected a client account within a specified date range. | UC2 |
+| FR3 | System shall retrieve credit application together with applicant’s profile and recorded financial information. | UC3 |
+| FR4 | System shall allow credit officer to update application status and record change timestamp in status history. | UC4 |
+| FR5 | System shall calculate application counts and total requested amounts by status for specified submission period. | UC5 |
+| FR6 | System shall calculate application counts and total requested amounts by responsible employee and status for specified submission period. | UC6 |
+
+| ID | Non-functional requirement | Verification |
+|---|---|---|
+| NFR1 | Entity identifiers shall be unique; account, application and transaction references shall resolve to existing entities. | Duplicate IDs rejected; reference checks report zero dangling references. |
+| NFR2 | Monetary values shall retain exact decimal precision throughout storage, integration and aggregation. | Calculated totals match predefined expected decimal values. |
+| NFR3 | MongoDB and CSV representations shall have documented mappings for identifiers, dates, amounts and currencies. | Valid CSV examples convert to agreed representation without information loss. |
+| NFR4 | Supplied fixture data and documented commands shall reproduce expected query results. | Fresh setup produces documented outputs. |
+| NFR5 | Project datasets shall contain synthetic personal information only. | Review confirms records contain no real customer information. |
+
+| Term | Definition |
+|---|---|
+| Stakeholder | Person or group affected by system or interested in its results. |
+| User requirement | Need or task described from user’s perspective. |
+| Functional requirement (FR) | Behaviour or capability system must provide. |
+| Non-functional requirement (NFR) | Quality or constraint system must satisfy. |
+| Use case | Interaction between actor and system to achieve specific goal. |
+| Client | Bank customer who owns accounts and may submit credit applications. |
+| Account | Banking entity belonging to client and associated with transactions. |
+| Transaction / movement | Recorded incoming or outgoing amount associated with account. |
+| Credit application | Client’s request for credit, including requested amount, term and status. |
+| Credit officer | Employee responsible for reviewing and updating credit applications. |
+| Bank manager | Stakeholder monitoring credit activity and employee performance. |
+| Application status | Current application state: pending, approved or declined. |
+| Status history | Chronological record of application status changes. |
+| Requested amount | Amount client requests; distinct from approved or disbursed amount. |
+| Data source | Independent location or format storing information, such as MongoDB or CSV. |
+| Data integration | Combining related information from heterogeneous sources. |
+| Identifier | Unique value identifying entity, such as client ID or account ID. |
+| Traceability | Ability to link requirements to stakeholders, use cases and verification. |
