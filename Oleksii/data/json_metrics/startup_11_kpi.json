@@ -1,0 +1,30 @@
+{
+    "startup_reference_id": 11,
+    "currency": "USD",
+    "monthly_reports": [
+        {
+            "month": "November 2026",
+            "financials": {
+                "mrr": 174133.94,
+                "cac": 3930.27,
+                "churn_rate_pct": 3.4
+            }
+        },
+        {
+            "month": "October 2026",
+            "financials": {
+                "mrr": 172362.87,
+                "cac": 1354.93,
+                "churn_rate_pct": 7.53
+            }
+        },
+        {
+            "month": "September 2026",
+            "financials": {
+                "mrr": 175646.94,
+                "cac": 4224.34,
+                "churn_rate_pct": 3.8
+            }
+        }
+    ]
+}
