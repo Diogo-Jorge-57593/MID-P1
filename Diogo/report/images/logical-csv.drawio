@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile><diagram name="logical-csv"><mxGraphModel><root><mxCell id="0" />
+                <mxCell id="1" parent="0" />
+                <mxCell id="wnUDmC-MqYqskAWSdhET-8" parent="1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;Transaction (CSV)&lt;/font&gt;" vertex="1">
+                    <mxGeometry height="270" width="160" x="2798" y="-340" as="geometry">
+                        <mxRectangle height="30" width="80" x="100" y="70" as="alternateBounds" />
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="wnUDmC-MqYqskAWSdhET-9" parent="wnUDmC-MqYqskAWSdhET-8" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="&lt;u&gt;transactionId&lt;/u&gt;" vertex="1">
+                    <mxGeometry height="30" width="160" y="30" as="geometry" />
+                </mxCell>
+                <mxCell id="wnUDmC-MqYqskAWSdhET-10" parent="wnUDmC-MqYqskAWSdhET-8" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="transferId" vertex="1">
+                    <mxGeometry height="30" width="160" y="90.0" as="geometry" />
+                </mxCell>
+                <mxCell id="wnUDmC-MqYqskAWSdhET-11" parent="wnUDmC-MqYqskAWSdhET-8" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="bookingDate" vertex="1">
+                    <mxGeometry height="30" width="160" y="120.0" as="geometry" />
+                </mxCell>
+                <mxCell id="wnUDmC-MqYqskAWSdhET-12" parent="wnUDmC-MqYqskAWSdhET-8" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="direction" vertex="1">
+                    <mxGeometry height="30" width="160" y="150.0" as="geometry" />
+                </mxCell>
+                <mxCell id="wnUDmC-MqYqskAWSdhET-13" parent="wnUDmC-MqYqskAWSdhET-8" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="amount" vertex="1">
+                    <mxGeometry height="30" width="160" y="180.0" as="geometry" />
+                </mxCell>
+                <mxCell id="wnUDmC-MqYqskAWSdhET-14" parent="wnUDmC-MqYqskAWSdhET-8" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="currency" vertex="1">
+                    <mxGeometry height="30" width="160" y="210.0" as="geometry" />
+                </mxCell>
+                <mxCell id="wnUDmC-MqYqskAWSdhET-15" parent="wnUDmC-MqYqskAWSdhET-8" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="description" vertex="1">
+                    <mxGeometry height="30" width="160" y="240.0" as="geometry" />
+                </mxCell>
+                <mxCell id="csv-accountId-export" parent="wnUDmC-MqYqskAWSdhET-8" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="accountId" vertex="1">
+                    <mxGeometry height="30" width="160" y="60" as="geometry" />
+                </mxCell>
+                </root></mxGraphModel></diagram></mxfile>

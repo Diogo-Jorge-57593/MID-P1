@@ -1,8 +1,10 @@
 # Data generation
 
-Implemented, **not executed**. No exported dataset, checkpoint database, MongoDB
-import or API call has been produced during implementation. Runtime behaviour
-still needs verification when generation is authorised.
+Reference and scale profiles **generated and independently validated on
+13 November 2026**, with zero validation errors. All nine runtime tests passed.
+See [generation-report.md](generation-report.md) for measured results, run
+identifiers, examples and source hashes. Subsequent MongoDB loading is a
+separate workflow, implemented in [database instructions](../database/README.md).
 
 Requires Python 3.11+ and its standard library only. No SDK, API key, Docker,
 MongoDB server, Faker or Python database package is needed to generate files.
@@ -13,22 +15,33 @@ configuration and seeded code.
 
 | Profile | Clients | Employees | Accounts | Applications | CSV data rows |
 |---|---:|---:|---:|---:|---:|
-| `scale` | 500 | 25 | 1,000 | 1,500 | 8,000 |
+| `scale` | 500 | 25 | 1,000 | 750 | 8,000 |
 | `reference` | 5 | 2 | 6 | 6 | 10 |
 
-The scale source has 3,025 MongoDB documents. Its CSV contains 6,000 ordinary
+The scale source has 2,275 MongoDB documents. Its CSV contains 6,000 ordinary
 movements and 1,000 complete transfer pairs (2,000 rows). Counts, income bands,
 purpose ranges, dates and sampling assumptions are in `config.json` and the
 parent `data-generation-plan.md`.
+
+The name catalogue contains 80 first names and 80 surnames. Full names are
+sampled without replacement across clients and employees, using two different
+surnames per person. Individual first names/surnames may recur; full names do not.
+Application allocation is exact: 150 clients have zero, 200 have one, 75 have
+two, and 25 each have four, five and seven applications. Amounts use EUR 10
+increments: 60% sampling probability selects a purpose-specific common amount;
+otherwise a whole-step amount is sampled uniformly within its configured range.
+The two fixed query examples retain EUR 18,000 and EUR 32,000. Of 150 pending
+applications, 75 are intentionally unassigned; every approved/declined request
+has an employee.
 
 Dependency order: clients -> employees -> accounts -> applications ->
 transactions. Clients/employee identities exist before dependent records.
 Each transfer is built and committed as one two-row unit.
 
-## Commands for later execution
+## Reproduction and resume commands
 
-Run from the MID-P1 repository root. These commands are examples; they have **not** been
-executed during implementation.
+Run from the MID-P1 repository root. The generation report records the exact
+commands used for the completed runs; examples below also show optional pauses.
 
 ```powershell
 # Start the scale profile, or resume its existing matching run.
@@ -57,6 +70,8 @@ The fingerprint covers configuration, catalogues, reference inputs, generator
 source files and Python implementation/version. Editing any of those creates a
 different default run identity. Status can inspect an older run using its
 explicit `--output` path.
+Repository `.gitattributes` pins generator Python/JSON inputs to LF line endings,
+preventing Git checkout conversion from changing recorded Python source hashes.
 
 ```powershell
 # Explicit run directory. Repeat exactly to resume.
@@ -167,11 +182,12 @@ No MongoDB schema, imports, server queries or external databases are executed
 by this folder's generation workflow. Local SQLite is used only for checkpoints.
 MongoDB loading remains a separate task.
 
-## Future runtime verification
+## Runtime verification
 
-Recovery tests are supplied in `tests/test_recovery.py` but were **not run**.
-They deliberately generate temporary reference/scale datasets, so execute them
-only when generation is permitted:
+All nine tests in `tests/test_recovery.py` passed on 13 November 2026. They use
+owned project-local scratch directories under ignored `outputs/test-work/`,
+with inherited Windows permissions, and remove only their own temporary runs.
+To repeat them:
 
 ```powershell
 python -B -m unittest discover -s Diogo/dataGeneration/tests -v
@@ -181,3 +197,6 @@ They cover abrupt process death, transaction rollback, transfer-pair atomicity, 
 changed-input rejection, missing-export recovery, clean/resumed hash equality
 under different batch sizes, default scale quotas and independent rejection
 of a CSV with a broken account reference.
+They also reject duplicate full names, an approved application without an
+employee, and unequal transfer amounts. Scale checks verify the exact
+application-count distribution, unique names and both application-amount styles.

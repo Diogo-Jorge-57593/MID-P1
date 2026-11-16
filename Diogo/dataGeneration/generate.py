@@ -75,7 +75,7 @@ def run(args, config, catalogue, reference, run_identity, directory):
     budget = args.stop_after_units
     with writer_lock(directory):
         check_output_directory(directory)
-        store = Store(directory, run_identity, sizes, lambda: make_plan(config, reference, args.profile))
+        store = Store(directory, run_identity, sizes, lambda: make_plan(config, reference, args.profile, catalogue))
         try:
             for name, value in (("identity.json", run_identity), ("config.json", config),
                                 ("catalogues.json", catalogue), ("reference.json", reference), ("scenario-plan.json", store.plan)):

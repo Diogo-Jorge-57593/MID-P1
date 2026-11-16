@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="1270" viewBox="0 0 1560 1270" role="img" aria-labelledby="title description">
+  <title id="title">MongoDB physical model</title>
+  <desc id="description">Proposed storage specification with typed fields, constraints and reference arrows. Editable equivalent in PhysicalModels.drawio; detailed specification in physical.txt.</desc>
+  <rect width="100%" height="100%" fill="#f3f6fb" />
+  <text x="60" y="62" fill="#20334a" font-size="33" font-family="Segoe UI, Arial, sans-serif" font-weight="700">MongoDB | physical model</text>
+  <text x="60" y="95" fill="#526579" font-size="17" font-family="Segoe UI, Arial, sans-serif">dmi_p1_bank  /  MongoDB 8.0  /  BSON documents  /  four collections</text>
+  <rect x="60" y="123" width="1440" height="48" rx="8" fill="#e4edf7" stroke="none" />
+  <text x="78" y="154" fill="#264d75" font-size="16" font-family="Segoe UI, Arial, sans-serif" font-weight="700">PROPOSED SCHEMA  -  required fields [R]; optional field [O]; existing loader still needs alignment</text>
+  <rect x="60" y="210" width="450" height="275" rx="8" fill="#ffffff" stroke="#c8d3df" />
+  <rect x="61" y="211" width="448" height="48" rx="0" fill="#173b62" stroke="none" />
+  <text x="78" y="242" fill="#ffffff" font-size="22" font-family="Segoe UI, Arial, sans-serif" font-weight="700">clients</text>
+  <rect x="61" y="258" width="448" height="32" rx="0" fill="none" stroke="none" />
+  <text x="78" y="280" fill="#20334a" font-size="16" font-family="Consolas, monospace">_id</text>
+  <text x="432.0" y="280" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">string [R]</text>
+  <rect x="61" y="290" width="448" height="32" rx="0" fill="none" stroke="none" />
+  <text x="78" y="312" fill="#20334a" font-size="16" font-family="Consolas, monospace">name</text>
+  <text x="432.0" y="312" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">string [R]</text>
+  <rect x="61" y="322" width="448" height="32" rx="0" fill="none" stroke="none" />
+  <text x="78" y="344" fill="#20334a" font-size="16" font-family="Consolas, monospace">email</text>
+  <text x="432.0" y="344" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">string [R]</text>
+  <rect x="61" y="354" width="448" height="32" rx="0" fill="none" stroke="none" />
+  <text x="78" y="376" fill="#20334a" font-size="16" font-family="Consolas, monospace">annualIncome</text>
+  <text x="390.0" y="376" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">Decimal128 [R]</text>
+  <rect x="61" y="386" width="448" height="32" rx="0" fill="none" stroke="none" />
+  <text x="78" y="408" fill="#20334a" font-size="16" font-family="Consolas, monospace">employmentStatus</text>
+  <text x="391.0" y="408" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">string enum [R]</text>
+  <polyline points="74,425 496,425" fill="none" stroke="#dce4ed" stroke-width="2.5" stroke-linejoin="round" />
+  <text x="78" y="447" fill="#526579" font-size="14" font-family="Consolas, monospace">UNIQUE _id_ { _id: 1 }</text>
+  <rect x="1030" y="210" width="470" height="332" rx="8" fill="#ffffff" stroke="#c8d3df" />
+  <rect x="1031" y="211" width="468" height="48" rx="0" fill="#173b62" stroke="none" />
+  <text x="1048" y="242" fill="#ffffff" font-size="22" font-family="Segoe UI, Arial, sans-serif" font-weight="700">accounts</text>
+  <rect x="1031" y="258" width="468" height="32" rx="0" fill="none" stroke="none" />
+  <text x="1048" y="280" fill="#20334a" font-size="16" font-family="Consolas, monospace">_id</text>
+  <text x="1422.0" y="280" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">string [R]</text>
+  <rect x="1031" y="290" width="468" height="32" rx="0" fill="none" stroke="none" />
+  <text x="1048" y="312" fill="#20334a" font-size="16" font-family="Consolas, monospace">clientId</text>
+  <text x="1422.0" y="312" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">string [R]</text>
+  <rect x="1031" y="322" width="468" height="32" rx="0" fill="none" stroke="none" />
+  <text x="1048" y="344" fill="#20334a" font-size="16" font-family="Consolas, monospace">accountType</text>
+  <text x="1381.0" y="344" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">string enum [R]</text>
+  <rect x="1031" y="354" width="468" height="32" rx="0" fill="none" stroke="none" />
+  <text x="1048" y="376" fill="#20334a" font-size="16" font-family="Consolas, monospace">currency</text>
+  <text x="1388.0" y="376" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">string: EUR [R]</text>
+  <rect x="1031" y="386" width="468" height="32" rx="0" fill="none" stroke="none" />
+  <text x="1048" y="408" fill="#20334a" font-size="16" font-family="Consolas, monospace">openedAt</text>
+  <text x="1384.0" y="408" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">BSON Date [R]</text>
+  <rect x="1031" y="418" width="468" height="32" rx="0" fill="none" stroke="none" />
+  <text x="1048" y="440" fill="#20334a" font-size="16" font-family="Consolas, monospace">status</text>
+  <text x="1381.0" y="440" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">string enum [R]</text>
+  <polyline points="1044,457 1486,457" fill="none" stroke="#dce4ed" stroke-width="2.5" stroke-linejoin="round" />
+  <text x="1048" y="479" fill="#526579" font-size="14" font-family="Consolas, monospace">UNIQUE _id_ { _id: 1 }</text>
+  <text x="1048" y="504" fill="#526579" font-size="14" font-family="Consolas, monospace">INDEX { clientId: 1 }</text>
+  <rect x="60" y="750" width="450" height="179" rx="8" fill="#ffffff" stroke="#c8d3df" />
+  <rect x="61" y="751" width="448" height="48" rx="0" fill="#173b62" stroke="none" />
+  <text x="78" y="782" fill="#ffffff" font-size="22" font-family="Segoe UI, Arial, sans-serif" font-weight="700">employees</text>
+  <rect x="61" y="798" width="448" height="32" rx="0" fill="none" stroke="none" />
+  <text x="78" y="820" fill="#20334a" font-size="16" font-family="Consolas, monospace">_id</text>
+  <text x="432.0" y="820" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">string [R]</text>
+  <rect x="61" y="830" width="448" height="32" rx="0" fill="none" stroke="none" />
+  <text x="78" y="852" fill="#20334a" font-size="16" font-family="Consolas, monospace">name</text>
+  <text x="432.0" y="852" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">string [R]</text>
+  <polyline points="74,869 496,869" fill="none" stroke="#dce4ed" stroke-width="2.5" stroke-linejoin="round" />
+  <text x="78" y="891" fill="#526579" font-size="14" font-family="Consolas, monospace">UNIQUE _id_ { _id: 1 }</text>
+  <rect x="1030" y="640" width="470" height="446" rx="8" fill="#ffffff" stroke="#c8d3df" />
+  <rect x="1031" y="641" width="468" height="48" rx="0" fill="#173b62" stroke="none" />
+  <text x="1048" y="672" fill="#ffffff" font-size="22" font-family="Segoe UI, Arial, sans-serif" font-weight="700">applications</text>
+  <rect x="1031" y="688" width="468" height="32" rx="0" fill="none" stroke="none" />
+  <text x="1048" y="710" fill="#20334a" font-size="16" font-family="Consolas, monospace">_id</text>
+  <text x="1422.0" y="710" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">string [R]</text>
+  <rect x="1031" y="720" width="468" height="32" rx="0" fill="none" stroke="none" />
+  <text x="1048" y="742" fill="#20334a" font-size="16" font-family="Consolas, monospace">clientId</text>
+  <text x="1422.0" y="742" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">string [R]</text>
+  <rect x="1031" y="752" width="468" height="32" rx="0" fill="none" stroke="none" />
+  <text x="1048" y="774" fill="#20334a" font-size="16" font-family="Consolas, monospace">employeeId</text>
+  <text x="1420.0" y="774" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">string [O]</text>
+  <rect x="1031" y="784" width="468" height="32" rx="0" fill="none" stroke="none" />
+  <text x="1048" y="806" fill="#20334a" font-size="16" font-family="Consolas, monospace">requestedAmount</text>
+  <text x="1380.0" y="806" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">Decimal128 [R]</text>
+  <rect x="1031" y="816" width="468" height="32" rx="0" fill="none" stroke="none" />
+  <text x="1048" y="838" fill="#20334a" font-size="16" font-family="Consolas, monospace">termMonths</text>
+  <text x="1399.0" y="838" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">BSON int [R]</text>
+  <rect x="1031" y="848" width="468" height="32" rx="0" fill="none" stroke="none" />
+  <text x="1048" y="870" fill="#20334a" font-size="16" font-family="Consolas, monospace">purpose</text>
+  <text x="1422.0" y="870" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">string [R]</text>
+  <rect x="1031" y="880" width="468" height="32" rx="0" fill="none" stroke="none" />
+  <text x="1048" y="902" fill="#20334a" font-size="16" font-family="Consolas, monospace">submittedAt</text>
+  <text x="1384.0" y="902" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">BSON Date [R]</text>
+  <rect x="1031" y="912" width="468" height="32" rx="0" fill="none" stroke="none" />
+  <text x="1048" y="934" fill="#20334a" font-size="16" font-family="Consolas, monospace">status</text>
+  <text x="1381.0" y="934" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">string enum [R]</text>
+  <polyline points="1044,951 1486,951" fill="none" stroke="#dce4ed" stroke-width="2.5" stroke-linejoin="round" />
+  <text x="1048" y="973" fill="#526579" font-size="14" font-family="Consolas, monospace">UNIQUE _id_ { _id: 1 }</text>
+  <text x="1048" y="998" fill="#526579" font-size="14" font-family="Consolas, monospace">INDEX { clientId: 1, submittedAt: -1 }</text>
+  <text x="1048" y="1023" fill="#526579" font-size="14" font-family="Consolas, monospace">INDEX { employeeId: 1, submittedAt: -1 }</text>
+  <text x="1048" y="1048" fill="#526579" font-size="14" font-family="Consolas, monospace">INDEX { submittedAt: 1, status: 1 }</text>
+  <rect x="60" y="535" width="450" height="155" rx="8" fill="#e8eef6" stroke="none" />
+  <text x="78" y="567" fill="#20334a" font-size="18" font-family="Segoe UI, Arial, sans-serif" font-weight="700">Local document validation</text>
+  <text x="78" y="595" fill="#526579" font-size="16" font-family="Segoe UI, Arial, sans-serif">$jsonSchema: strict / error</text>
+  <text x="78" y="621" fill="#526579" font-size="16" font-family="Segoe UI, Arial, sans-serif">Reject undeclared fields and wrong BSON types.</text>
+  <text x="78" y="647" fill="#526579" font-size="16" font-family="Segoe UI, Arial, sans-serif">Current status only; no status history.</text>
+  <text x="78" y="673" fill="#526579" font-size="16" font-family="Segoe UI, Arial, sans-serif">Omit employeeId when unassigned.</text>
+  <polyline points="1030,306.0 850,306.0 850,274.0 510,274.0" fill="none" stroke="#4774ac" stroke-width="2.5" stroke-linejoin="round" />
+  <polygon points="510,274.0 522.0,279.0 522.0,269.0" fill="#4774ac" />
+  <rect x="662" y="235" width="159" height="27" rx="5" fill="#f3f6fb" stroke="none" />
+  <text x="671" y="254" fill="#4774ac" font-size="15" font-family="Segoe UI, Arial, sans-serif">clientId -&gt; clients._id</text>
+  <polyline points="1030,736.0 760,736.0 760,565 580,565 580,274.0 510,274.0" fill="none" stroke="#4774ac" stroke-width="2.5" stroke-linejoin="round" />
+  <polygon points="510,274.0 522.0,279.0 522.0,269.0" fill="#4774ac" />
+  <rect x="585" y="531" width="159" height="27" rx="5" fill="#f3f6fb" stroke="none" />
+  <text x="594" y="550" fill="#4774ac" font-size="15" font-family="Segoe UI, Arial, sans-serif">clientId -&gt; clients._id</text>
+  <polyline points="1030,768.0 850,768.0 850,814.0 510,814.0" fill="none" stroke="#825ba4" stroke-width="2.5" stroke-linejoin="round" stroke-dasharray="8 6" />
+  <polygon points="510,814.0 522.0,819.0 522.0,809.0" fill="#825ba4" />
+  <rect x="591" y="828" width="289" height="27" rx="5" fill="#f3f6fb" stroke="none" />
+  <text x="600" y="847" fill="#825ba4" font-size="15" font-family="Segoe UI, Arial, sans-serif">employeeId -&gt; employees._id (optional)</text>
+  <rect x="60" y="1140" width="1440" height="103" rx="8" fill="#e8eef6" stroke="none" />
+  <text x="78" y="1172" fill="#20334a" font-size="18" font-family="Segoe UI, Arial, sans-serif" font-weight="700">Reference arrows show lookup paths, not enforced foreign keys.</text>
+  <text x="78" y="1200" fill="#526579" font-size="16" font-family="Segoe UI, Arial, sans-serif">Separate audits: existing targets; each client has an account; finite whole-cent money; midnight-UTC opening dates.</text>
+  <text x="78" y="1226" fill="#526579" font-size="16" font-family="Segoe UI, Arial, sans-serif">CSV accountId references accounts._id. Full rules and creation-schema example: Diogo/physical.txt.</text>
+</svg>

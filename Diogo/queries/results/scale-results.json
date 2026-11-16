@@ -1,0 +1,2546 @@
+{
+  "verified": true,
+  "checkedAt": "2026-11-16T17:14:19+00:00",
+  "database": "dmi_p1_bank",
+  "serverVersion": "8.0.32",
+  "profile": "scale",
+  "datasetId": "27ff7c5b1b33fa7c",
+  "sourceFingerprint": "27ff7c5b1b33fa7cff45ac9dfea4ead3bc649449d1d0d9d7ffce153663ace783",
+  "sourceSha256": {
+    "clients.jsonl": "b0876930afdf65005ee59c783066c0ee0892f88ba74b7fb03edfe7414ad98329",
+    "employees.jsonl": "10eea48025775231c3ffd94c6fc8fdbb5abd3f29632838b90ee6c3db713fc7a4",
+    "accounts.jsonl": "b121891f564cf2c724bae384817743b59c64ce1a723aa04ad1bd6726ee70847f",
+    "applications.jsonl": "f6884ebcd6ec2faad07909392c1dbb276ed87dc561bce08bb7138f6b6afa5f65",
+    "transactions.csv": "f731c34a0afe33b9efe0e8cd07de761573f7df5e2e52961169a430dc24b00694"
+  },
+  "runnerSha256": "9e74c11a808b6bcbf3ddee7cf5edc5a1fcc6a25c00a3dbec68cbe65ee1d416b4",
+  "parameters": {
+    "clientId": "C000004",
+    "periodEnd": "2026-09-30",
+    "periodStart": "2026-09-01"
+  },
+  "results": {
+    "Q1": [
+      {
+        "_id": "L000004",
+        "requestedAmountEUR": "18000.00",
+        "status": "pending"
+      },
+      {
+        "_id": "L000005",
+        "requestedAmountEUR": "32000.00",
+        "status": "declined"
+      }
+    ],
+    "Q2": [
+      {
+        "clientId": "C000001",
+        "totalIncomingEUR": "18804.03",
+        "totalOutgoingEUR": "3794.96"
+      },
+      {
+        "clientId": "C000002",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "736.22"
+      },
+      {
+        "clientId": "C000003",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "19592.04"
+      },
+      {
+        "clientId": "C000004",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "2780.85"
+      },
+      {
+        "clientId": "C000005",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000006",
+        "totalIncomingEUR": "3690.13",
+        "totalOutgoingEUR": "1966.55"
+      },
+      {
+        "clientId": "C000007",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000008",
+        "totalIncomingEUR": "1477.06",
+        "totalOutgoingEUR": "5854.28"
+      },
+      {
+        "clientId": "C000009",
+        "totalIncomingEUR": "9244.81",
+        "totalOutgoingEUR": "7669.32"
+      },
+      {
+        "clientId": "C000010",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "1951.38"
+      },
+      {
+        "clientId": "C000011",
+        "totalIncomingEUR": "6321.56",
+        "totalOutgoingEUR": "17967.25"
+      },
+      {
+        "clientId": "C000012",
+        "totalIncomingEUR": "2234.11",
+        "totalOutgoingEUR": "1959.89"
+      },
+      {
+        "clientId": "C000013",
+        "totalIncomingEUR": "585.06",
+        "totalOutgoingEUR": "461.84"
+      },
+      {
+        "clientId": "C000014",
+        "totalIncomingEUR": "20680.45",
+        "totalOutgoingEUR": "19795.35"
+      },
+      {
+        "clientId": "C000015",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "15323.07"
+      },
+      {
+        "clientId": "C000016",
+        "totalIncomingEUR": "1669.89",
+        "totalOutgoingEUR": "12708.25"
+      },
+      {
+        "clientId": "C000017",
+        "totalIncomingEUR": "21377.67",
+        "totalOutgoingEUR": "17780.84"
+      },
+      {
+        "clientId": "C000018",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "1464.94"
+      },
+      {
+        "clientId": "C000019",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "3269.69"
+      },
+      {
+        "clientId": "C000020",
+        "totalIncomingEUR": "557.63",
+        "totalOutgoingEUR": "7215.37"
+      },
+      {
+        "clientId": "C000021",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000022",
+        "totalIncomingEUR": "5004.30",
+        "totalOutgoingEUR": "5334.30"
+      },
+      {
+        "clientId": "C000023",
+        "totalIncomingEUR": "19035.92",
+        "totalOutgoingEUR": "19035.92"
+      },
+      {
+        "clientId": "C000024",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "7474.01"
+      },
+      {
+        "clientId": "C000025",
+        "totalIncomingEUR": "3802.99",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000026",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "6491.14"
+      },
+      {
+        "clientId": "C000027",
+        "totalIncomingEUR": "3107.76",
+        "totalOutgoingEUR": "300.91"
+      },
+      {
+        "clientId": "C000028",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000029",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "28696.27"
+      },
+      {
+        "clientId": "C000030",
+        "totalIncomingEUR": "903.16",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000031",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "10415.78"
+      },
+      {
+        "clientId": "C000032",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000033",
+        "totalIncomingEUR": "1606.26",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000034",
+        "totalIncomingEUR": "5978.84",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000035",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "18611.17"
+      },
+      {
+        "clientId": "C000036",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "3678.37"
+      },
+      {
+        "clientId": "C000037",
+        "totalIncomingEUR": "10220.76",
+        "totalOutgoingEUR": "24470.59"
+      },
+      {
+        "clientId": "C000038",
+        "totalIncomingEUR": "6221.52",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000039",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000040",
+        "totalIncomingEUR": "9188.07",
+        "totalOutgoingEUR": "23580.13"
+      },
+      {
+        "clientId": "C000041",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000042",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000043",
+        "totalIncomingEUR": "2449.51",
+        "totalOutgoingEUR": "6494.84"
+      },
+      {
+        "clientId": "C000044",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "20.00"
+      },
+      {
+        "clientId": "C000045",
+        "totalIncomingEUR": "1882.78",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000046",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "1430.42"
+      },
+      {
+        "clientId": "C000047",
+        "totalIncomingEUR": "6491.14",
+        "totalOutgoingEUR": "660.08"
+      },
+      {
+        "clientId": "C000048",
+        "totalIncomingEUR": "17352.75",
+        "totalOutgoingEUR": "6081.63"
+      },
+      {
+        "clientId": "C000049",
+        "totalIncomingEUR": "287.87",
+        "totalOutgoingEUR": "2.72"
+      },
+      {
+        "clientId": "C000050",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "744.92"
+      },
+      {
+        "clientId": "C000051",
+        "totalIncomingEUR": "10268.81",
+        "totalOutgoingEUR": "10268.81"
+      },
+      {
+        "clientId": "C000052",
+        "totalIncomingEUR": "23636.29",
+        "totalOutgoingEUR": "17667.24"
+      },
+      {
+        "clientId": "C000053",
+        "totalIncomingEUR": "13095.09",
+        "totalOutgoingEUR": "42491.35"
+      },
+      {
+        "clientId": "C000054",
+        "totalIncomingEUR": "2455.24",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000055",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000056",
+        "totalIncomingEUR": "2894.34",
+        "totalOutgoingEUR": "37693.16"
+      },
+      {
+        "clientId": "C000057",
+        "totalIncomingEUR": "4230.87",
+        "totalOutgoingEUR": "26346.45"
+      },
+      {
+        "clientId": "C000058",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "5900.15"
+      },
+      {
+        "clientId": "C000059",
+        "totalIncomingEUR": "21033.30",
+        "totalOutgoingEUR": "10117.87"
+      },
+      {
+        "clientId": "C000060",
+        "totalIncomingEUR": "18270.25",
+        "totalOutgoingEUR": "17457.21"
+      },
+      {
+        "clientId": "C000061",
+        "totalIncomingEUR": "12713.76",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000062",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "260.00"
+      },
+      {
+        "clientId": "C000063",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "5566.10"
+      },
+      {
+        "clientId": "C000064",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000065",
+        "totalIncomingEUR": "1424.59",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000066",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "10804.93"
+      },
+      {
+        "clientId": "C000067",
+        "totalIncomingEUR": "8896.75",
+        "totalOutgoingEUR": "12815.60"
+      },
+      {
+        "clientId": "C000068",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "1945.18"
+      },
+      {
+        "clientId": "C000069",
+        "totalIncomingEUR": "16841.39",
+        "totalOutgoingEUR": "14247.37"
+      },
+      {
+        "clientId": "C000070",
+        "totalIncomingEUR": "2913.69",
+        "totalOutgoingEUR": "18449.63"
+      },
+      {
+        "clientId": "C000071",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000072",
+        "totalIncomingEUR": "2724.54",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000073",
+        "totalIncomingEUR": "1829.30",
+        "totalOutgoingEUR": "3906.81"
+      },
+      {
+        "clientId": "C000074",
+        "totalIncomingEUR": "11719.59",
+        "totalOutgoingEUR": "12030.90"
+      },
+      {
+        "clientId": "C000075",
+        "totalIncomingEUR": "21060.04",
+        "totalOutgoingEUR": "397.15"
+      },
+      {
+        "clientId": "C000076",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000077",
+        "totalIncomingEUR": "18554.84",
+        "totalOutgoingEUR": "18239.27"
+      },
+      {
+        "clientId": "C000078",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000079",
+        "totalIncomingEUR": "19487.20",
+        "totalOutgoingEUR": "27568.52"
+      },
+      {
+        "clientId": "C000080",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "6302.79"
+      },
+      {
+        "clientId": "C000081",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000082",
+        "totalIncomingEUR": "4603.52",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000083",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "5208.80"
+      },
+      {
+        "clientId": "C000084",
+        "totalIncomingEUR": "3091.78",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000085",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000086",
+        "totalIncomingEUR": "2967.30",
+        "totalOutgoingEUR": "148.60"
+      },
+      {
+        "clientId": "C000087",
+        "totalIncomingEUR": "3243.23",
+        "totalOutgoingEUR": "10544.77"
+      },
+      {
+        "clientId": "C000088",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "3831.26"
+      },
+      {
+        "clientId": "C000089",
+        "totalIncomingEUR": "14451.03",
+        "totalOutgoingEUR": "25721.82"
+      },
+      {
+        "clientId": "C000090",
+        "totalIncomingEUR": "18290.85",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000091",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "16412.27"
+      },
+      {
+        "clientId": "C000092",
+        "totalIncomingEUR": "1300.26",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000093",
+        "totalIncomingEUR": "3748.63",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000094",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "6840.29"
+      },
+      {
+        "clientId": "C000095",
+        "totalIncomingEUR": "700.68",
+        "totalOutgoingEUR": "10157.14"
+      },
+      {
+        "clientId": "C000096",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000097",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000098",
+        "totalIncomingEUR": "14395.54",
+        "totalOutgoingEUR": "28942.61"
+      },
+      {
+        "clientId": "C000099",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000100",
+        "totalIncomingEUR": "13794.81",
+        "totalOutgoingEUR": "3302.76"
+      },
+      {
+        "clientId": "C000101",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "4851.65"
+      },
+      {
+        "clientId": "C000102",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000103",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "5577.41"
+      },
+      {
+        "clientId": "C000104",
+        "totalIncomingEUR": "2039.54",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000105",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000106",
+        "totalIncomingEUR": "5312.87",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000107",
+        "totalIncomingEUR": "5153.24",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000108",
+        "totalIncomingEUR": "8343.48",
+        "totalOutgoingEUR": "7037.25"
+      },
+      {
+        "clientId": "C000109",
+        "totalIncomingEUR": "36488.58",
+        "totalOutgoingEUR": "30267.93"
+      },
+      {
+        "clientId": "C000110",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "2628.66"
+      },
+      {
+        "clientId": "C000111",
+        "totalIncomingEUR": "1680.05",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000112",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "3210.67"
+      },
+      {
+        "clientId": "C000113",
+        "totalIncomingEUR": "2936.30",
+        "totalOutgoingEUR": "28131.75"
+      },
+      {
+        "clientId": "C000114",
+        "totalIncomingEUR": "14341.20",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000115",
+        "totalIncomingEUR": "2817.09",
+        "totalOutgoingEUR": "5381.31"
+      },
+      {
+        "clientId": "C000116",
+        "totalIncomingEUR": "6818.31",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000117",
+        "totalIncomingEUR": "4245.95",
+        "totalOutgoingEUR": "208.96"
+      },
+      {
+        "clientId": "C000118",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000119",
+        "totalIncomingEUR": "3575.35",
+        "totalOutgoingEUR": "1205.48"
+      },
+      {
+        "clientId": "C000120",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000121",
+        "totalIncomingEUR": "8929.38",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000122",
+        "totalIncomingEUR": "14166.63",
+        "totalOutgoingEUR": "4695.92"
+      },
+      {
+        "clientId": "C000123",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000124",
+        "totalIncomingEUR": "43218.91",
+        "totalOutgoingEUR": "47231.00"
+      },
+      {
+        "clientId": "C000125",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "9965.67"
+      },
+      {
+        "clientId": "C000126",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000127",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "410.00"
+      },
+      {
+        "clientId": "C000128",
+        "totalIncomingEUR": "2366.71",
+        "totalOutgoingEUR": "90.00"
+      },
+      {
+        "clientId": "C000129",
+        "totalIncomingEUR": "3161.68",
+        "totalOutgoingEUR": "2184.72"
+      },
+      {
+        "clientId": "C000130",
+        "totalIncomingEUR": "2803.98",
+        "totalOutgoingEUR": "4683.75"
+      },
+      {
+        "clientId": "C000131",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "12.27"
+      },
+      {
+        "clientId": "C000132",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000133",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000134",
+        "totalIncomingEUR": "1959.58",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000135",
+        "totalIncomingEUR": "2173.43",
+        "totalOutgoingEUR": "11609.93"
+      },
+      {
+        "clientId": "C000136",
+        "totalIncomingEUR": "2066.85",
+        "totalOutgoingEUR": "6996.39"
+      },
+      {
+        "clientId": "C000137",
+        "totalIncomingEUR": "11096.53",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000138",
+        "totalIncomingEUR": "9363.31",
+        "totalOutgoingEUR": "9372.41"
+      },
+      {
+        "clientId": "C000139",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "16827.91"
+      },
+      {
+        "clientId": "C000140",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "8284.20"
+      },
+      {
+        "clientId": "C000141",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "9335.08"
+      },
+      {
+        "clientId": "C000142",
+        "totalIncomingEUR": "3290.20",
+        "totalOutgoingEUR": "18453.27"
+      },
+      {
+        "clientId": "C000143",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "486.47"
+      },
+      {
+        "clientId": "C000144",
+        "totalIncomingEUR": "3298.69",
+        "totalOutgoingEUR": "4481.62"
+      },
+      {
+        "clientId": "C000145",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000146",
+        "totalIncomingEUR": "9551.40",
+        "totalOutgoingEUR": "4873.47"
+      },
+      {
+        "clientId": "C000147",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "16888.55"
+      },
+      {
+        "clientId": "C000148",
+        "totalIncomingEUR": "2403.02",
+        "totalOutgoingEUR": "7097.29"
+      },
+      {
+        "clientId": "C000149",
+        "totalIncomingEUR": "19321.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000150",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000151",
+        "totalIncomingEUR": "2422.28",
+        "totalOutgoingEUR": "3491.08"
+      },
+      {
+        "clientId": "C000152",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000153",
+        "totalIncomingEUR": "10177.94",
+        "totalOutgoingEUR": "4022.07"
+      },
+      {
+        "clientId": "C000154",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "20772.38"
+      },
+      {
+        "clientId": "C000155",
+        "totalIncomingEUR": "13785.13",
+        "totalOutgoingEUR": "4845.10"
+      },
+      {
+        "clientId": "C000156",
+        "totalIncomingEUR": "1673.78",
+        "totalOutgoingEUR": "179.12"
+      },
+      {
+        "clientId": "C000157",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "2962.85"
+      },
+      {
+        "clientId": "C000158",
+        "totalIncomingEUR": "14120.96",
+        "totalOutgoingEUR": "5943.21"
+      },
+      {
+        "clientId": "C000159",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000160",
+        "totalIncomingEUR": "5295.66",
+        "totalOutgoingEUR": "184.10"
+      },
+      {
+        "clientId": "C000161",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000162",
+        "totalIncomingEUR": "1700.10",
+        "totalOutgoingEUR": "180.00"
+      },
+      {
+        "clientId": "C000163",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000164",
+        "totalIncomingEUR": "1122.75",
+        "totalOutgoingEUR": "15207.48"
+      },
+      {
+        "clientId": "C000165",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000166",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000167",
+        "totalIncomingEUR": "1577.20",
+        "totalOutgoingEUR": "902.29"
+      },
+      {
+        "clientId": "C000168",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "14877.07"
+      },
+      {
+        "clientId": "C000169",
+        "totalIncomingEUR": "3537.12",
+        "totalOutgoingEUR": "3915.25"
+      },
+      {
+        "clientId": "C000170",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "14878.95"
+      },
+      {
+        "clientId": "C000171",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "5726.02"
+      },
+      {
+        "clientId": "C000172",
+        "totalIncomingEUR": "1664.52",
+        "totalOutgoingEUR": "2850.56"
+      },
+      {
+        "clientId": "C000173",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "8341.89"
+      },
+      {
+        "clientId": "C000174",
+        "totalIncomingEUR": "2309.56",
+        "totalOutgoingEUR": "13689.47"
+      },
+      {
+        "clientId": "C000175",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "104.20"
+      },
+      {
+        "clientId": "C000176",
+        "totalIncomingEUR": "1026.62",
+        "totalOutgoingEUR": "5580.71"
+      },
+      {
+        "clientId": "C000177",
+        "totalIncomingEUR": "13286.14",
+        "totalOutgoingEUR": "10.35"
+      },
+      {
+        "clientId": "C000178",
+        "totalIncomingEUR": "5352.09",
+        "totalOutgoingEUR": "18143.41"
+      },
+      {
+        "clientId": "C000179",
+        "totalIncomingEUR": "3632.15",
+        "totalOutgoingEUR": "1080.58"
+      },
+      {
+        "clientId": "C000180",
+        "totalIncomingEUR": "16130.82",
+        "totalOutgoingEUR": "4864.16"
+      },
+      {
+        "clientId": "C000181",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000182",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000183",
+        "totalIncomingEUR": "21712.89",
+        "totalOutgoingEUR": "360.14"
+      },
+      {
+        "clientId": "C000184",
+        "totalIncomingEUR": "2209.19",
+        "totalOutgoingEUR": "2073.67"
+      },
+      {
+        "clientId": "C000185",
+        "totalIncomingEUR": "13929.78",
+        "totalOutgoingEUR": "1445.85"
+      },
+      {
+        "clientId": "C000186",
+        "totalIncomingEUR": "24820.43",
+        "totalOutgoingEUR": "4976.48"
+      },
+      {
+        "clientId": "C000187",
+        "totalIncomingEUR": "20556.87",
+        "totalOutgoingEUR": "1352.56"
+      },
+      {
+        "clientId": "C000188",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000189",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "8333.34"
+      },
+      {
+        "clientId": "C000190",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000191",
+        "totalIncomingEUR": "3700.25",
+        "totalOutgoingEUR": "2153.55"
+      },
+      {
+        "clientId": "C000192",
+        "totalIncomingEUR": "1789.09",
+        "totalOutgoingEUR": "4955.86"
+      },
+      {
+        "clientId": "C000193",
+        "totalIncomingEUR": "2400.73",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000194",
+        "totalIncomingEUR": "1383.98",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000195",
+        "totalIncomingEUR": "16389.27",
+        "totalOutgoingEUR": "16391.20"
+      },
+      {
+        "clientId": "C000196",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000197",
+        "totalIncomingEUR": "15211.16",
+        "totalOutgoingEUR": "4362.26"
+      },
+      {
+        "clientId": "C000198",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000199",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000200",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "3040.05"
+      },
+      {
+        "clientId": "C000201",
+        "totalIncomingEUR": "1501.07",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000202",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000203",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "23979.23"
+      },
+      {
+        "clientId": "C000204",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "3009.92"
+      },
+      {
+        "clientId": "C000205",
+        "totalIncomingEUR": "7191.43",
+        "totalOutgoingEUR": "7192.67"
+      },
+      {
+        "clientId": "C000206",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "3145.23"
+      },
+      {
+        "clientId": "C000207",
+        "totalIncomingEUR": "3055.85",
+        "totalOutgoingEUR": "2829.73"
+      },
+      {
+        "clientId": "C000208",
+        "totalIncomingEUR": "1334.16",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000209",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000210",
+        "totalIncomingEUR": "1398.12",
+        "totalOutgoingEUR": "1398.12"
+      },
+      {
+        "clientId": "C000211",
+        "totalIncomingEUR": "1491.38",
+        "totalOutgoingEUR": "24244.75"
+      },
+      {
+        "clientId": "C000212",
+        "totalIncomingEUR": "12254.15",
+        "totalOutgoingEUR": "3656.46"
+      },
+      {
+        "clientId": "C000213",
+        "totalIncomingEUR": "757.65",
+        "totalOutgoingEUR": "19345.60"
+      },
+      {
+        "clientId": "C000214",
+        "totalIncomingEUR": "15792.14",
+        "totalOutgoingEUR": "2178.72"
+      },
+      {
+        "clientId": "C000215",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000216",
+        "totalIncomingEUR": "4064.33",
+        "totalOutgoingEUR": "5701.19"
+      },
+      {
+        "clientId": "C000217",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "6678.18"
+      },
+      {
+        "clientId": "C000218",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000219",
+        "totalIncomingEUR": "5660.40",
+        "totalOutgoingEUR": "1924.25"
+      },
+      {
+        "clientId": "C000220",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "2176.01"
+      },
+      {
+        "clientId": "C000221",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000222",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000223",
+        "totalIncomingEUR": "1730.94",
+        "totalOutgoingEUR": "190.00"
+      },
+      {
+        "clientId": "C000224",
+        "totalIncomingEUR": "13411.55",
+        "totalOutgoingEUR": "2164.82"
+      },
+      {
+        "clientId": "C000225",
+        "totalIncomingEUR": "200.14",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000226",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "8.22"
+      },
+      {
+        "clientId": "C000227",
+        "totalIncomingEUR": "13651.53",
+        "totalOutgoingEUR": "4991.91"
+      },
+      {
+        "clientId": "C000228",
+        "totalIncomingEUR": "4912.20",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000229",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "3419.52"
+      },
+      {
+        "clientId": "C000230",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "5710.19"
+      },
+      {
+        "clientId": "C000231",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000232",
+        "totalIncomingEUR": "1667.10",
+        "totalOutgoingEUR": "7587.36"
+      },
+      {
+        "clientId": "C000233",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "7577.50"
+      },
+      {
+        "clientId": "C000234",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "9701.25"
+      },
+      {
+        "clientId": "C000235",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "16185.78"
+      },
+      {
+        "clientId": "C000236",
+        "totalIncomingEUR": "557.49",
+        "totalOutgoingEUR": "4780.35"
+      },
+      {
+        "clientId": "C000237",
+        "totalIncomingEUR": "3380.64",
+        "totalOutgoingEUR": "4.84"
+      },
+      {
+        "clientId": "C000238",
+        "totalIncomingEUR": "33805.70",
+        "totalOutgoingEUR": "12671.37"
+      },
+      {
+        "clientId": "C000239",
+        "totalIncomingEUR": "1901.35",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000240",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "2019.04"
+      },
+      {
+        "clientId": "C000241",
+        "totalIncomingEUR": "631.91",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000242",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000243",
+        "totalIncomingEUR": "19294.17",
+        "totalOutgoingEUR": "20410.32"
+      },
+      {
+        "clientId": "C000244",
+        "totalIncomingEUR": "6520.45",
+        "totalOutgoingEUR": "4621.81"
+      },
+      {
+        "clientId": "C000245",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "11948.43"
+      },
+      {
+        "clientId": "C000246",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000247",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000248",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000249",
+        "totalIncomingEUR": "21544.49",
+        "totalOutgoingEUR": "13107.12"
+      },
+      {
+        "clientId": "C000250",
+        "totalIncomingEUR": "6822.02",
+        "totalOutgoingEUR": "4388.12"
+      },
+      {
+        "clientId": "C000251",
+        "totalIncomingEUR": "10022.61",
+        "totalOutgoingEUR": "3108.00"
+      },
+      {
+        "clientId": "C000252",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000253",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "11680.15"
+      },
+      {
+        "clientId": "C000254",
+        "totalIncomingEUR": "3627.36",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000255",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "300.38"
+      },
+      {
+        "clientId": "C000256",
+        "totalIncomingEUR": "2684.15",
+        "totalOutgoingEUR": "28050.29"
+      },
+      {
+        "clientId": "C000257",
+        "totalIncomingEUR": "8636.65",
+        "totalOutgoingEUR": "8856.65"
+      },
+      {
+        "clientId": "C000258",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000259",
+        "totalIncomingEUR": "3431.54",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000260",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000261",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "2244.37"
+      },
+      {
+        "clientId": "C000262",
+        "totalIncomingEUR": "3696.18",
+        "totalOutgoingEUR": "1866.10"
+      },
+      {
+        "clientId": "C000263",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "4755.48"
+      },
+      {
+        "clientId": "C000264",
+        "totalIncomingEUR": "23186.18",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000265",
+        "totalIncomingEUR": "5425.38",
+        "totalOutgoingEUR": "18769.10"
+      },
+      {
+        "clientId": "C000266",
+        "totalIncomingEUR": "16568.41",
+        "totalOutgoingEUR": "33496.82"
+      },
+      {
+        "clientId": "C000267",
+        "totalIncomingEUR": "2353.93",
+        "totalOutgoingEUR": "245.29"
+      },
+      {
+        "clientId": "C000268",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000269",
+        "totalIncomingEUR": "18992.15",
+        "totalOutgoingEUR": "1722.04"
+      },
+      {
+        "clientId": "C000270",
+        "totalIncomingEUR": "23171.92",
+        "totalOutgoingEUR": "18082.25"
+      },
+      {
+        "clientId": "C000271",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000272",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "2031.18"
+      },
+      {
+        "clientId": "C000273",
+        "totalIncomingEUR": "1961.67",
+        "totalOutgoingEUR": "3517.48"
+      },
+      {
+        "clientId": "C000274",
+        "totalIncomingEUR": "1288.09",
+        "totalOutgoingEUR": "13612.93"
+      },
+      {
+        "clientId": "C000275",
+        "totalIncomingEUR": "1471.05",
+        "totalOutgoingEUR": "9384.28"
+      },
+      {
+        "clientId": "C000276",
+        "totalIncomingEUR": "1900.76",
+        "totalOutgoingEUR": "4087.16"
+      },
+      {
+        "clientId": "C000277",
+        "totalIncomingEUR": "19925.53",
+        "totalOutgoingEUR": "21054.49"
+      },
+      {
+        "clientId": "C000278",
+        "totalIncomingEUR": "3339.81",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000279",
+        "totalIncomingEUR": "1587.37",
+        "totalOutgoingEUR": "1490.52"
+      },
+      {
+        "clientId": "C000280",
+        "totalIncomingEUR": "1292.15",
+        "totalOutgoingEUR": "1696.28"
+      },
+      {
+        "clientId": "C000281",
+        "totalIncomingEUR": "3014.23",
+        "totalOutgoingEUR": "7377.52"
+      },
+      {
+        "clientId": "C000282",
+        "totalIncomingEUR": "2380.07",
+        "totalOutgoingEUR": "8560.23"
+      },
+      {
+        "clientId": "C000283",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "1961.95"
+      },
+      {
+        "clientId": "C000284",
+        "totalIncomingEUR": "25463.76",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000285",
+        "totalIncomingEUR": "2907.79",
+        "totalOutgoingEUR": "5753.91"
+      },
+      {
+        "clientId": "C000286",
+        "totalIncomingEUR": "2053.88",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000287",
+        "totalIncomingEUR": "382.52",
+        "totalOutgoingEUR": "9880.03"
+      },
+      {
+        "clientId": "C000288",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000289",
+        "totalIncomingEUR": "3458.71",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000290",
+        "totalIncomingEUR": "6295.97",
+        "totalOutgoingEUR": "8881.96"
+      },
+      {
+        "clientId": "C000291",
+        "totalIncomingEUR": "1368.68",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000292",
+        "totalIncomingEUR": "5425.17",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000293",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "13785.13"
+      },
+      {
+        "clientId": "C000294",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000295",
+        "totalIncomingEUR": "1698.50",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000296",
+        "totalIncomingEUR": "34942.63",
+        "totalOutgoingEUR": "18752.90"
+      },
+      {
+        "clientId": "C000297",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "8658.15"
+      },
+      {
+        "clientId": "C000298",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "5377.31"
+      },
+      {
+        "clientId": "C000299",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "207.27"
+      },
+      {
+        "clientId": "C000300",
+        "totalIncomingEUR": "13062.01",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000301",
+        "totalIncomingEUR": "26004.72",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000302",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000303",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000304",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000305",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "13.14"
+      },
+      {
+        "clientId": "C000306",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "4934.26"
+      },
+      {
+        "clientId": "C000307",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "9390.24"
+      },
+      {
+        "clientId": "C000308",
+        "totalIncomingEUR": "1388.02",
+        "totalOutgoingEUR": "5015.49"
+      },
+      {
+        "clientId": "C000309",
+        "totalIncomingEUR": "3567.34",
+        "totalOutgoingEUR": "2916.21"
+      },
+      {
+        "clientId": "C000310",
+        "totalIncomingEUR": "29621.61",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000311",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000312",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "1311.76"
+      },
+      {
+        "clientId": "C000313",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000314",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "3764.42"
+      },
+      {
+        "clientId": "C000315",
+        "totalIncomingEUR": "1244.39",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000316",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "340.00"
+      },
+      {
+        "clientId": "C000317",
+        "totalIncomingEUR": "8596.23",
+        "totalOutgoingEUR": "3834.73"
+      },
+      {
+        "clientId": "C000318",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "163.59"
+      },
+      {
+        "clientId": "C000319",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "1004.51"
+      },
+      {
+        "clientId": "C000320",
+        "totalIncomingEUR": "7854.20",
+        "totalOutgoingEUR": "5.33"
+      },
+      {
+        "clientId": "C000321",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "4245.72"
+      },
+      {
+        "clientId": "C000322",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000323",
+        "totalIncomingEUR": "15113.40",
+        "totalOutgoingEUR": "4698.94"
+      },
+      {
+        "clientId": "C000324",
+        "totalIncomingEUR": "3122.35",
+        "totalOutgoingEUR": "210.00"
+      },
+      {
+        "clientId": "C000325",
+        "totalIncomingEUR": "1908.87",
+        "totalOutgoingEUR": "11426.80"
+      },
+      {
+        "clientId": "C000326",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000327",
+        "totalIncomingEUR": "17643.17",
+        "totalOutgoingEUR": "54403.44"
+      },
+      {
+        "clientId": "C000328",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "4076.79"
+      },
+      {
+        "clientId": "C000329",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000330",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000331",
+        "totalIncomingEUR": "3020.74",
+        "totalOutgoingEUR": "765.80"
+      },
+      {
+        "clientId": "C000332",
+        "totalIncomingEUR": "815.60",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000333",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "4288.17"
+      },
+      {
+        "clientId": "C000334",
+        "totalIncomingEUR": "3357.34",
+        "totalOutgoingEUR": "3032.11"
+      },
+      {
+        "clientId": "C000335",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000336",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "2886.13"
+      },
+      {
+        "clientId": "C000337",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000338",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "11810.16"
+      },
+      {
+        "clientId": "C000339",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000340",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "4761.75"
+      },
+      {
+        "clientId": "C000341",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "3002.89"
+      },
+      {
+        "clientId": "C000342",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000343",
+        "totalIncomingEUR": "17456.57",
+        "totalOutgoingEUR": "110.00"
+      },
+      {
+        "clientId": "C000344",
+        "totalIncomingEUR": "13195.89",
+        "totalOutgoingEUR": "17679.89"
+      },
+      {
+        "clientId": "C000345",
+        "totalIncomingEUR": "1476.69",
+        "totalOutgoingEUR": "437.83"
+      },
+      {
+        "clientId": "C000346",
+        "totalIncomingEUR": "9759.45",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000347",
+        "totalIncomingEUR": "5621.25",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000348",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "3769.64"
+      },
+      {
+        "clientId": "C000349",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000350",
+        "totalIncomingEUR": "37336.77",
+        "totalOutgoingEUR": "3516.03"
+      },
+      {
+        "clientId": "C000351",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000352",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "29364.23"
+      },
+      {
+        "clientId": "C000353",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000354",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "439.33"
+      },
+      {
+        "clientId": "C000355",
+        "totalIncomingEUR": "18340.94",
+        "totalOutgoingEUR": "18445.43"
+      },
+      {
+        "clientId": "C000356",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "6406.50"
+      },
+      {
+        "clientId": "C000357",
+        "totalIncomingEUR": "2150.60",
+        "totalOutgoingEUR": "3625.84"
+      },
+      {
+        "clientId": "C000358",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000359",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000360",
+        "totalIncomingEUR": "601.98",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000361",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "3575.19"
+      },
+      {
+        "clientId": "C000362",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "9.46"
+      },
+      {
+        "clientId": "C000363",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "2797.35"
+      },
+      {
+        "clientId": "C000364",
+        "totalIncomingEUR": "4380.51",
+        "totalOutgoingEUR": "4562.93"
+      },
+      {
+        "clientId": "C000365",
+        "totalIncomingEUR": "2354.80",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000366",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000367",
+        "totalIncomingEUR": "21465.85",
+        "totalOutgoingEUR": "15635.65"
+      },
+      {
+        "clientId": "C000368",
+        "totalIncomingEUR": "2409.26",
+        "totalOutgoingEUR": "34670.73"
+      },
+      {
+        "clientId": "C000369",
+        "totalIncomingEUR": "709.59",
+        "totalOutgoingEUR": "15898.60"
+      },
+      {
+        "clientId": "C000370",
+        "totalIncomingEUR": "4300.69",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000371",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000372",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "1596.83"
+      },
+      {
+        "clientId": "C000373",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000374",
+        "totalIncomingEUR": "1718.42",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000375",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000376",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000377",
+        "totalIncomingEUR": "2228.31",
+        "totalOutgoingEUR": "7006.62"
+      },
+      {
+        "clientId": "C000378",
+        "totalIncomingEUR": "2354.58",
+        "totalOutgoingEUR": "4688.54"
+      },
+      {
+        "clientId": "C000379",
+        "totalIncomingEUR": "7584.46",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000380",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "20581.44"
+      },
+      {
+        "clientId": "C000381",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "17352.75"
+      },
+      {
+        "clientId": "C000382",
+        "totalIncomingEUR": "1400.60",
+        "totalOutgoingEUR": "46.56"
+      },
+      {
+        "clientId": "C000383",
+        "totalIncomingEUR": "1434.30",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000384",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "1924.21"
+      },
+      {
+        "clientId": "C000385",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000386",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000387",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000388",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000389",
+        "totalIncomingEUR": "1444.76",
+        "totalOutgoingEUR": "4468.09"
+      },
+      {
+        "clientId": "C000390",
+        "totalIncomingEUR": "2083.80",
+        "totalOutgoingEUR": "340.11"
+      },
+      {
+        "clientId": "C000391",
+        "totalIncomingEUR": "2276.03",
+        "totalOutgoingEUR": "5029.23"
+      },
+      {
+        "clientId": "C000392",
+        "totalIncomingEUR": "17518.53",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000393",
+        "totalIncomingEUR": "3604.43",
+        "totalOutgoingEUR": "2436.43"
+      },
+      {
+        "clientId": "C000394",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000395",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "1172.70"
+      },
+      {
+        "clientId": "C000396",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000397",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "11139.12"
+      },
+      {
+        "clientId": "C000398",
+        "totalIncomingEUR": "2583.83",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000399",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000400",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "3692.39"
+      },
+      {
+        "clientId": "C000401",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000402",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "1145.31"
+      },
+      {
+        "clientId": "C000403",
+        "totalIncomingEUR": "11456.35",
+        "totalOutgoingEUR": "8487.00"
+      },
+      {
+        "clientId": "C000404",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000405",
+        "totalIncomingEUR": "6751.44",
+        "totalOutgoingEUR": "3781.31"
+      },
+      {
+        "clientId": "C000406",
+        "totalIncomingEUR": "1177.11",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000407",
+        "totalIncomingEUR": "29152.54",
+        "totalOutgoingEUR": "17366.31"
+      },
+      {
+        "clientId": "C000408",
+        "totalIncomingEUR": "1964.49",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000409",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "1095.58"
+      },
+      {
+        "clientId": "C000410",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "3386.02"
+      },
+      {
+        "clientId": "C000411",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000412",
+        "totalIncomingEUR": "677.44",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000413",
+        "totalIncomingEUR": "2082.79",
+        "totalOutgoingEUR": "1682.23"
+      },
+      {
+        "clientId": "C000414",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000415",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "11.32"
+      },
+      {
+        "clientId": "C000416",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000417",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000418",
+        "totalIncomingEUR": "10805.82",
+        "totalOutgoingEUR": "9251.05"
+      },
+      {
+        "clientId": "C000419",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "2395.47"
+      },
+      {
+        "clientId": "C000420",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000421",
+        "totalIncomingEUR": "2724.08",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000422",
+        "totalIncomingEUR": "2214.29",
+        "totalOutgoingEUR": "13384.34"
+      },
+      {
+        "clientId": "C000423",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "2618.01"
+      },
+      {
+        "clientId": "C000424",
+        "totalIncomingEUR": "3116.51",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000425",
+        "totalIncomingEUR": "9456.46",
+        "totalOutgoingEUR": "24215.24"
+      },
+      {
+        "clientId": "C000426",
+        "totalIncomingEUR": "15490.82",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000427",
+        "totalIncomingEUR": "2186.32",
+        "totalOutgoingEUR": "3076.06"
+      },
+      {
+        "clientId": "C000428",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "2458.18"
+      },
+      {
+        "clientId": "C000429",
+        "totalIncomingEUR": "18094.29",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000430",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000431",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "3.26"
+      },
+      {
+        "clientId": "C000432",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "14.85"
+      },
+      {
+        "clientId": "C000433",
+        "totalIncomingEUR": "793.64",
+        "totalOutgoingEUR": "2412.52"
+      },
+      {
+        "clientId": "C000434",
+        "totalIncomingEUR": "10390.30",
+        "totalOutgoingEUR": "11.91"
+      },
+      {
+        "clientId": "C000435",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "1455.03"
+      },
+      {
+        "clientId": "C000436",
+        "totalIncomingEUR": "16127.11",
+        "totalOutgoingEUR": "16127.11"
+      },
+      {
+        "clientId": "C000437",
+        "totalIncomingEUR": "2863.12",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000438",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000439",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "4951.17"
+      },
+      {
+        "clientId": "C000440",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000441",
+        "totalIncomingEUR": "3269.91",
+        "totalOutgoingEUR": "11426.02"
+      },
+      {
+        "clientId": "C000442",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000443",
+        "totalIncomingEUR": "1895.88",
+        "totalOutgoingEUR": "8265.79"
+      },
+      {
+        "clientId": "C000444",
+        "totalIncomingEUR": "3207.29",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000445",
+        "totalIncomingEUR": "12527.01",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000446",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "4995.48"
+      },
+      {
+        "clientId": "C000447",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000448",
+        "totalIncomingEUR": "3812.06",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000449",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000450",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000451",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000452",
+        "totalIncomingEUR": "1936.81",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000453",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000454",
+        "totalIncomingEUR": "2083.17",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000455",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000456",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000457",
+        "totalIncomingEUR": "18453.27",
+        "totalOutgoingEUR": "3077.03"
+      },
+      {
+        "clientId": "C000458",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000459",
+        "totalIncomingEUR": "5711.41",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000460",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "2592.26"
+      },
+      {
+        "clientId": "C000461",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000462",
+        "totalIncomingEUR": "728.77",
+        "totalOutgoingEUR": "8.81"
+      },
+      {
+        "clientId": "C000463",
+        "totalIncomingEUR": "19945.27",
+        "totalOutgoingEUR": "635.57"
+      },
+      {
+        "clientId": "C000464",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "4989.16"
+      },
+      {
+        "clientId": "C000465",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000466",
+        "totalIncomingEUR": "19287.89",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000467",
+        "totalIncomingEUR": "47546.59",
+        "totalOutgoingEUR": "20651.91"
+      },
+      {
+        "clientId": "C000468",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000469",
+        "totalIncomingEUR": "1814.90",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000470",
+        "totalIncomingEUR": "8333.34",
+        "totalOutgoingEUR": "4.00"
+      },
+      {
+        "clientId": "C000471",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "3560.92"
+      },
+      {
+        "clientId": "C000472",
+        "totalIncomingEUR": "4080.56",
+        "totalOutgoingEUR": "2606.25"
+      },
+      {
+        "clientId": "C000473",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000474",
+        "totalIncomingEUR": "8879.61",
+        "totalOutgoingEUR": "14390.06"
+      },
+      {
+        "clientId": "C000475",
+        "totalIncomingEUR": "2291.72",
+        "totalOutgoingEUR": "2682.77"
+      },
+      {
+        "clientId": "C000476",
+        "totalIncomingEUR": "2265.23",
+        "totalOutgoingEUR": "21739.66"
+      },
+      {
+        "clientId": "C000477",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "4825.91"
+      },
+      {
+        "clientId": "C000478",
+        "totalIncomingEUR": "5673.67",
+        "totalOutgoingEUR": "15638.39"
+      },
+      {
+        "clientId": "C000479",
+        "totalIncomingEUR": "3237.19",
+        "totalOutgoingEUR": "2543.42"
+      },
+      {
+        "clientId": "C000480",
+        "totalIncomingEUR": "23003.45",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000481",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000482",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "40.00"
+      },
+      {
+        "clientId": "C000483",
+        "totalIncomingEUR": "17613.35",
+        "totalOutgoingEUR": "10621.54"
+      },
+      {
+        "clientId": "C000484",
+        "totalIncomingEUR": "22570.15",
+        "totalOutgoingEUR": "1340.56"
+      },
+      {
+        "clientId": "C000485",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000486",
+        "totalIncomingEUR": "2660.60",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000487",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000488",
+        "totalIncomingEUR": "1236.71",
+        "totalOutgoingEUR": "2257.97"
+      },
+      {
+        "clientId": "C000489",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000490",
+        "totalIncomingEUR": "16814.18",
+        "totalOutgoingEUR": "4075.67"
+      },
+      {
+        "clientId": "C000491",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000492",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "4496.60"
+      },
+      {
+        "clientId": "C000493",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000494",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "6822.02"
+      },
+      {
+        "clientId": "C000495",
+        "totalIncomingEUR": "19302.75",
+        "totalOutgoingEUR": "705.40"
+      },
+      {
+        "clientId": "C000496",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000497",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000498",
+        "totalIncomingEUR": "0.00",
+        "totalOutgoingEUR": "0.00"
+      },
+      {
+        "clientId": "C000499",
+        "totalIncomingEUR": "15624.54",
+        "totalOutgoingEUR": "7344.39"
+      },
+      {
+        "clientId": "C000500",
+        "totalIncomingEUR": "3539.63",
+        "totalOutgoingEUR": "6597.24"
+      }
+    ]
+  },
+  "summary": {
+    "q1Rows": 2,
+    "q2Rows": 500,
+    "periodMovements": 930,
+    "zeroActivityClients": 121,
+    "totalIncomingEUR": "2130127.13",
+    "totalOutgoingEUR": "2383262.07"
+  }
+}

@@ -1,12 +1,14 @@
 # Synthetic banking data generation plan
 
-Date: 13 November 2026. Status: strategy implemented in `dataGeneration/`;
-generator and runtime tests have not been executed.
+Date: 13 November 2026. Status: reference/scale datasets generated and validated;
+all nine runtime recovery/quality tests passed. Evidence: `dataGeneration/generation-report.md`.
 
 This document defines a reproducible process for the latest MongoDB and CSV
 models. Generator implementation now follows this plan in `dataGeneration/`.
-No large dataset is generated and no revised MongoDB schema is installed.
-MongoDB loading/server verification remain separate work.
+Validated scale exports exist. `database/load.py` subsequently installed the
+current schema and loaded/verified all 2,275 MongoDB documents in MongoDB 8.0.32.
+Installation/viewing instructions and evidence: `database/README.md` and the
+source run's `mongodb-load-report.json`. CSV remains a separate file source.
 
 ## 1. Method and target scale
 
@@ -20,8 +22,8 @@ produces records from documented rules.
 | Clients / MongoDB | 500 | Root population |
 | Employees / MongoDB | 25 | Created independently before assignment |
 | Accounts / MongoDB | 1,000 | 100 clients own one account, 300 own two, 100 own three |
-| Credit applications / MongoDB | 1,500 | Assigned to a controlled subset of existing clients |
-| **MongoDB documents** | **3,025** | Sum of four collections |
+| Credit applications / MongoDB | 750 | Exact per-client allocation; see Step D |
+| **MongoDB documents** | **2,275** | Sum of four collections |
 | Transactions / CSV | 8,000 | 6,000 ordinary movements plus 1,000 internal-transfer pairs |
 
 Counts are exact design targets, not estimates of real bank activity. CSV has
@@ -33,8 +35,8 @@ are modelling assumptions, not observed Portuguese banking statistics.
 
 ## 2. Identifier change needed before scaling
 
-Current physical specification uses exactly three digits. That cannot identify
-1,500 applications or 8,000 distinct movements without changing the format.
+The initial prototype used exactly three digits. That cannot identify
+1,000 accounts or 8,000 distinct movements without changing the format.
 
 Implemented generator convention (physical specification updated):
 
@@ -49,8 +51,9 @@ Implemented generator convention (physical specification updated):
   lexical ordering. An identifier is an identity, not an encoded business fact.
 
 The physical specification now accepts the wider patterns. Legacy database
-setup.js still requires alignment before loading; the generator does not run
-or update that database script. Reference query parameters remain unchanged;
+setup.js remains a legacy prototype; the current loader instead uses
+`database/schema.js`. The generator does not run either database workflow.
+Reference query parameters remain unchanged;
 scale parameters are recorded in each generated manifest/result file.
 
 ## 3. Two dataset profiles
@@ -94,10 +97,13 @@ two project sources.
 
 ### Step A - Clients
 
-1. Allocate exactly 500 unique IDs and fictional names.
+1. Allocate exactly 500 unique IDs and fictional full names. The frozen
+   catalogue contains 80 first names and 80 surnames. Sample combination ranks
+   without replacement across clients and employees; use two different surnames.
+   Persist names in the scenario plan before record generation for stable resume.
 2. Generate a unique synthetic email from the ID, such as
-   `c000001@example.invalid`. Duplicate human names are allowed; IDs establish
-   identity.
+   `c000001@example.invalid`. Full names do not repeat within or across the
+   client/employee collections; IDs still establish identity.
 3. Allocate employment categories by exact quotas:
 
 | Employment status | Count |
@@ -129,7 +135,8 @@ seeded samples. Decimal points here describe numeric values, not CSV formatting.
 
 ### Step B - Employees
 
-Create 25 unique employees with fictional names. Reserve one employee with no
+Create 25 unique employees with fictional full names from the same allocation,
+excluding every client name. Reserve one employee with no
 assigned applications to exercise empty-workload behaviour. Distribute assigned
 applications across the other 24, with controlled variation in workloads.
 
@@ -150,14 +157,15 @@ dataset reconstructs a complete account lifecycle.
 
 ### Step D - Credit applications
 
-1. Reserve 100 clients with no applications, including `C000005`. Allocate
-   applications only to the remaining 400; every one of those receives at
-   least one. Respect the exactly-two case for `C000004`.
-2. Allocate the remaining applications with a weighted distribution that
-   produces different numbers of applications per client.
-3. Use exact status quotas: 825 approved, 375 declined, 300 pending. The two
+1. Allocate 750 applications with exact per-client counts: 150 clients have
+   zero, 200 have one, 75 have two, and 25 each have four, five and seven.
+   Reserve `C000005` among empty clients and `C000004` among exactly-two clients.
+2. Shuffle the remaining count assignments and application positions using
+   independent plan seeds. The client-count quotas sum to 500 people and
+   750 applications, guaranteeing both occasional and repeat applicants.
+3. Use exact status quotas: 410 approved, 190 declined, 150 pending. The two
    reserved BQ1 applications count toward these totals.
-4. Leave 150 pending applications unassigned. Assign every other application
+4. Leave 75 pending applications unassigned. Assign every other application
    to an existing employee; the reserved no-workload employee remains unused.
 5. Draw positive requested amounts and terms from the purpose-specific defaults
    below. Vehicle loans have shorter sampled terms than home-improvement loans,
@@ -176,16 +184,20 @@ not new schema maximums.
 
 | Purpose | Count | Requested amount range (EUR) | Sampled term choices (months) |
 |---|---:|---|---|
-| vehicle | 525 | 3,000-45,000 | 12, 24, 36, 48, 60, 72 |
-| education | 225 | 1,000-30,000 | 12, 24, 36, 48, 60, 84 |
-| home_improvement | 375 | 5,000-120,000 | 24, 36, 60, 84, 120, 180, 240 |
-| personal_expense | 225 | 500-20,000 | 6, 12, 24, 36, 48 |
-| debt_consolidation | 150 | 2,000-50,000 | 12, 24, 36, 48, 60, 84 |
+| vehicle | 260 | 3,000-45,000 | 12, 24, 36, 48, 60, 72 |
+| education | 115 | 1,000-30,000 | 12, 24, 36, 48, 60, 84 |
+| home_improvement | 190 | 5,000-120,000 | 24, 36, 60, 84, 120, 180, 240 |
+| personal_expense | 110 | 500-20,000 | 6, 12, 24, 36, 48 |
+| debt_consolidation | 75 | 2,000-50,000 | 12, 24, 36, 48, 60, 84 |
 
 The two reserved BQ1 cases use home improvement and debt consolidation,
-respectively, and count toward those quotas. Sample an integer-cent principal
-within its range and a term from the corresponding list; keep status allocation
-separate from creditworthiness. Actual distribution is reported after generation.
+respectively, and count toward those quotas. For other applications, a 60%
+sampling probability selects a common purpose-specific amount from configuration;
+otherwise sample uniformly among EUR 10 multiples inside the purpose range.
+Examples include EUR 5,000, 10,000 and 25,000 alongside values such as 12,340.
+Amounts use integer cents internally; all principals are multiples of 1,000 cents.
+Sample terms from the corresponding list; status allocation stays separate
+from creditworthiness. Actual distribution is recorded in the generation report.
 
 ### Step E - Transactions
 
@@ -267,7 +279,7 @@ checks are implied. The model lacks opening balances and a complete ledger.
   reproducible with the same pinned code/configuration/environment. A manifest
   run timestamp may differ; keep it separate from dataset-content hashes.
 
-Implemented output layout; output directories are created only on a future run:
+Implemented output layout; completed run identifiers are in the generation report:
 
 ```text
 Diogo/
@@ -343,8 +355,9 @@ loading and stored-source/query verification.
 
 Before loading:
 
-1. Align `database/setup.js` and its verification with the latest four-collection
-   schema, current-status-only model and widened identifier patterns.
+1. Use `database/load.py` and its current four-collection `schema.js`,
+   current-status-only model and widened identifier patterns. The old
+   `database/setup.js` is not part of the supported loading workflow.
 2. Inspect the target database. Never drop data or silently overwrite an
    existing source/profile. Keep the small reference profile separate from
    the scale profile; refuse a conflicting load until a specific migration
@@ -356,7 +369,7 @@ Before loading:
 
 Update report and README with the actual process, commands and measured
 results. Update small/large query parameters and expected results explicitly;
-the old six-application verification cannot validate a 1,500-application source.
+the old six-application verification cannot validate a 750-application source.
 
 Coordinate a shared identity registry with the venture-capital colleague before
 finalising cross-subtopic fixtures. If their sources include individual
@@ -414,6 +427,7 @@ Official OpenAI documentation:
 - [Non-interactive mode](https://learn.chatgpt.com/docs/non-interactive-mode): CLI automation, permissions, saved authentication and JSONL events.
 - [Agents API](https://developers.openai.com/api/docs/guides/agents-api/overview): managed Codex harness, execution environments and API billing.
 
-No API call, agent launch, SDK installation or data-generation run is made by
-this planning/implementation work. See `dataGeneration/README.md` for future
-run/resume/status commands and the unexecuted runtime-recovery tests.
+No API call, agent launch or SDK installation was needed. Reference/scale
+datasets were generated locally and independently validated. See
+`dataGeneration/README.md` for run/resume/status commands and
+`dataGeneration/generation-report.md` for measured results and passed tests.

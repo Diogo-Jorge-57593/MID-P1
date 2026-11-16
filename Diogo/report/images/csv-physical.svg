@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="1130" viewBox="0 0 1560 1130" role="img" aria-labelledby="title description">
+  <title id="title">CSV physical model</title>
+  <desc id="description">Proposed storage specification with typed fields, constraints and reference arrows. Editable equivalent in PhysicalModels.drawio; detailed specification in physical.txt.</desc>
+  <rect width="100%" height="100%" fill="#f3f6fb" />
+  <text x="60" y="62" fill="#20334a" font-size="33" font-family="Segoe UI, Arial, sans-serif" font-weight="700">CSV | physical model</text>
+  <text x="60" y="95" fill="#526579" font-size="17" font-family="Segoe UI, Arial, sans-serif">transactions.csv  /  one row per booked account movement  /  eight stored text columns</text>
+  <rect x="60" y="123" width="1440" height="48" rx="8" fill="#e4edf7" stroke="none" />
+  <text x="78" y="154" fill="#264d75" font-size="16" font-family="Segoe UI, Arial, sans-serif" font-weight="700">PROPOSED SOURCE  -  [R] required; [O] optional; file has no native date/decimal types or persistent indexes</text>
+  <rect x="60" y="210" width="550" height="396" rx="8" fill="#ffffff" stroke="#c8d3df" />
+  <rect x="61" y="211" width="548" height="48" rx="0" fill="#116c70" stroke="none" />
+  <text x="78" y="242" fill="#ffffff" font-size="22" font-family="Segoe UI, Arial, sans-serif" font-weight="700">transactions.csv</text>
+  <rect x="61" y="258" width="548" height="32" rx="0" fill="none" stroke="none" />
+  <text x="78" y="280" fill="#20334a" font-size="16" font-family="Consolas, monospace">transactionId</text>
+  <text x="505.015625" y="280" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">text: Tnnn [R]</text>
+  <rect x="61" y="290" width="548" height="32" rx="0" fill="none" stroke="none" />
+  <text x="78" y="312" fill="#20334a" font-size="16" font-family="Consolas, monospace">accountId</text>
+  <text x="503.0" y="312" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">text: Annn [R]</text>
+  <rect x="61" y="322" width="548" height="32" rx="0" fill="none" stroke="none" />
+  <text x="78" y="344" fill="#20334a" font-size="16" font-family="Consolas, monospace">transferId</text>
+  <text x="438.0" y="344" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">text: TRnnn / empty [O]</text>
+  <rect x="61" y="354" width="548" height="32" rx="0" fill="none" stroke="none" />
+  <text x="78" y="376" fill="#20334a" font-size="16" font-family="Consolas, monospace">bookingDate</text>
+  <text x="445.0" y="376" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">text: DD/MM/YYYY [R]</text>
+  <rect x="61" y="386" width="548" height="32" rx="0" fill="none" stroke="none" />
+  <text x="78" y="408" fill="#20334a" font-size="16" font-family="Consolas, monospace">direction</text>
+  <text x="479.0" y="408" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">text: IN / OUT [R]</text>
+  <rect x="61" y="418" width="548" height="32" rx="0" fill="none" stroke="none" />
+  <text x="78" y="440" fill="#20334a" font-size="16" font-family="Consolas, monospace">amount</text>
+  <text x="486.0" y="440" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">text: 1250,50 [R]</text>
+  <rect x="61" y="450" width="548" height="32" rx="0" fill="none" stroke="none" />
+  <text x="78" y="472" fill="#20334a" font-size="16" font-family="Consolas, monospace">currency</text>
+  <text x="510.0" y="472" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">text: EUR [R]</text>
+  <rect x="61" y="482" width="548" height="32" rx="0" fill="none" stroke="none" />
+  <text x="78" y="504" fill="#20334a" font-size="16" font-family="Consolas, monospace">description</text>
+  <text x="501.0" y="504" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">UTF-8 text [R]</text>
+  <polyline points="74,521 596,521" fill="none" stroke="#dce4ed" stroke-width="2.5" stroke-linejoin="round" />
+  <text x="78" y="543" fill="#526579" font-size="14" font-family="Consolas, monospace">KEY transactionId (validator-enforced)</text>
+  <text x="78" y="568" fill="#526579" font-size="14" font-family="Consolas, monospace">No persistent CSV indexes</text>
+  <rect x="1010" y="210" width="490" height="243" rx="8" fill="#ffffff" stroke="#c8d3df" />
+  <rect x="1011" y="211" width="488" height="48" rx="0" fill="#566d85" stroke="none" />
+  <text x="1028" y="242" fill="#ffffff" font-size="22" font-family="Segoe UI, Arial, sans-serif" font-weight="700">accounts | external MongoDB source</text>
+  <rect x="1011" y="258" width="488" height="32" rx="0" fill="none" stroke="none" />
+  <text x="1028" y="280" fill="#20334a" font-size="16" font-family="Consolas, monospace">_id</text>
+  <text x="1445.0" y="280" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">string</text>
+  <rect x="1011" y="290" width="488" height="32" rx="0" fill="none" stroke="none" />
+  <text x="1028" y="312" fill="#20334a" font-size="16" font-family="Consolas, monospace">clientId</text>
+  <text x="1445.0" y="312" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">string</text>
+  <rect x="1011" y="322" width="488" height="32" rx="0" fill="none" stroke="none" />
+  <text x="1028" y="344" fill="#20334a" font-size="16" font-family="Consolas, monospace">currency</text>
+  <text x="1411.0" y="344" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">string: EUR</text>
+  <rect x="1011" y="354" width="488" height="32" rx="0" fill="none" stroke="none" />
+  <text x="1028" y="376" fill="#20334a" font-size="16" font-family="Consolas, monospace">openedAt</text>
+  <text x="1407.0" y="376" fill="#526579" font-size="15" font-family="Segoe UI, Arial, sans-serif">BSON Date</text>
+  <polyline points="1024,393 1486,393" fill="none" stroke="#dce4ed" stroke-width="2.5" stroke-linejoin="round" />
+  <text x="1028" y="415" fill="#526579" font-size="14" font-family="Consolas, monospace">dmi_p1_bank.accounts</text>
+  <polyline points="610,306.0 820,306.0 820,274.0 1010,274.0" fill="none" stroke="#4774ac" stroke-width="2.5" stroke-linejoin="round" />
+  <polygon points="1010,274.0 998.0,269.0 998.0,279.0" fill="#4774ac" />
+  <rect x="649" y="232" width="191" height="27" rx="5" fill="#f3f6fb" stroke="none" />
+  <text x="658" y="251" fill="#4774ac" font-size="15" font-family="Segoe UI, Arial, sans-serif">accountId -&gt; accounts._id</text>
+  <rect x="650" y="352" width="320" height="155" rx="8" fill="#e8eef6" stroke="none" />
+  <text x="668" y="384" fill="#20334a" font-size="18" font-family="Segoe UI, Arial, sans-serif" font-weight="700">Reference rule</text>
+  <text x="668" y="412" fill="#526579" font-size="16" font-family="Segoe UI, Arial, sans-serif">One account per movement.</text>
+  <text x="668" y="438" fill="#526579" font-size="16" font-family="Segoe UI, Arial, sans-serif">Account may have 0..* movements.</text>
+  <text x="668" y="464" fill="#526579" font-size="16" font-family="Segoe UI, Arial, sans-serif">Validate exact ID and currency.</text>
+  <text x="668" y="490" fill="#526579" font-size="16" font-family="Segoe UI, Arial, sans-serif">Client reached through account.</text>
+  <rect x="60" y="690" width="550" height="207" rx="8" fill="#e3f0ee" stroke="none" />
+  <text x="78" y="722" fill="#20334a" font-size="18" font-family="Segoe UI, Arial, sans-serif" font-weight="700">Exact file conventions</text>
+  <text x="78" y="750" fill="#526579" font-size="16" font-family="Segoe UI, Arial, sans-serif">UTF-8 without BOM; semicolon separator.</text>
+  <text x="78" y="776" fill="#526579" font-size="16" font-family="Segoe UI, Arial, sans-serif">Double-quote fields; escape quotes as "".</text>
+  <text x="78" y="802" fill="#526579" font-size="16" font-family="Segoe UI, Arial, sans-serif">CRLF export; exact header and column order.</text>
+  <text x="78" y="828" fill="#526579" font-size="16" font-family="Segoe UI, Arial, sans-serif">Empty transferId: consecutive delimiters (;;).</text>
+  <text x="78" y="854" fill="#526579" font-size="16" font-family="Segoe UI, Arial, sans-serif">Positive amount; comma + two decimal places.</text>
+  <text x="78" y="880" fill="#526579" font-size="16" font-family="Segoe UI, Arial, sans-serif">Reader parses dates and exact Decimal values.</text>
+  <rect x="1010" y="570" width="490" height="259" rx="8" fill="#eee8f5" stroke="none" />
+  <text x="1028" y="602" fill="#20334a" font-size="18" font-family="Segoe UI, Arial, sans-serif" font-weight="700">Transfer pair | shared TR001</text>
+  <text x="1028" y="630" fill="#526579" font-size="16" font-family="Segoe UI, Arial, sans-serif">T002   A001   OUT   100,00 EUR</text>
+  <text x="1028" y="656" fill="#526579" font-size="16" font-family="Segoe UI, Arial, sans-serif">T003   A002    IN   100,00 EUR</text>
+  <text x="1028" y="682" fill="#526579" font-size="16" font-family="Segoe UI, Arial, sans-serif" />
+  <text x="1028" y="708" fill="#526579" font-size="16" font-family="Segoe UI, Arial, sans-serif">Exactly two rows; different accounts.</text>
+  <text x="1028" y="734" fill="#526579" font-size="16" font-family="Segoe UI, Arial, sans-serif">Opposite directions; equal amount/currency.</text>
+  <text x="1028" y="760" fill="#526579" font-size="16" font-family="Segoe UI, Arial, sans-serif">Same owner allowed; dates may differ.</text>
+  <text x="1028" y="786" fill="#526579" font-size="16" font-family="Segoe UI, Arial, sans-serif">Validate whole file before period filtering.</text>
+  <text x="1028" y="812" fill="#526579" font-size="16" font-family="Segoe UI, Arial, sans-serif">Ordinary movement: transferId empty.</text>
+  <rect x="60" y="1020" width="1440" height="77" rx="8" fill="#e8eef6" stroke="none" />
+  <text x="78" y="1052" fill="#20334a" font-size="18" font-family="Segoe UI, Arial, sans-serif" font-weight="700">CSV stores movements, not account balances or transfer instructions.</text>
+  <text x="78" y="1080" fill="#526579" font-size="16" font-family="Segoe UI, Arial, sans-serif">Native storage is text. Reader enforces keys, domains, dates, decimals, transfer pairs and external references.</text>
+</svg>

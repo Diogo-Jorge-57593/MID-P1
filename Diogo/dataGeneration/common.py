@@ -10,8 +10,9 @@ import platform
 import random
 import re
 import sqlite3
+import unicodedata
 
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 HERE = Path(__file__).resolve().parent
 STAGES = ("clients", "employees", "accounts", "applications", "transactions")
 CODE_FILES = ("common.py", "checkpoint.py", "builder.py", "generate.py", "validate.py")
@@ -172,6 +173,14 @@ def validate_config(config: dict, catalogue: dict) -> None:
         apps = config["applications"]
         need(type(apps["count"]) is int and apps["count"] >= 5, "Need at least five application positions")
         need(type(apps["clientsWithoutApplications"]) is int, "clientsWithoutApplications must be an integer")
+        per_client = apps["perClientCounts"]
+        counts(per_client, "application counts per client")
+        need(all(key.isdigit() and str(int(key)) == key for key in per_client), "Application-count keys must be canonical non-negative integers")
+        need(sum(per_client.values()) == n, "Application-count quotas do not cover all clients")
+        need(sum(int(key) * value for key, value in per_client.items()) == apps["count"], "Application-count quotas do not sum to application count")
+        need(per_client.get("0", 0) == apps["clientsWithoutApplications"] and per_client.get("2", 0) >= 1, "Application quotas must include empty and exactly-two query clients")
+        need(type(apps["amountStepCents"]) is int and apps["amountStepCents"] == 1000, "Application amounts must use EUR 10 increments")
+        need(type(apps["commonAmountPercent"]) is int and 0 < apps["commonAmountPercent"] < 100, "Common-amount probability must be between 1 and 99 percent")
         need(type(apps["unassignedPending"]) is int and apps["unassignedPending"] >= 0, "Invalid unassigned count")
         for label in ("statusCounts", "purposeCounts"):
             counts(apps[label], label)
@@ -184,6 +193,11 @@ def validate_config(config: dict, catalogue: dict) -> None:
         for purpose, spec in apps["purposes"].items():
             low, high = spec["amountCents"]
             need(type(low) is int and type(high) is int and 1 <= low <= high < 10**34, f"Invalid principal range: {purpose}")
+            step = apps["amountStepCents"]
+            need((low + step - 1) // step <= high // step, f"No whole-step principal available: {purpose}")
+            common = spec["commonAmountsCents"]
+            need(isinstance(common, list) and bool(common) and all(type(amount) is int and low <= amount <= high and amount % step == 0 for amount in common), f"Invalid common principals: {purpose}")
+            need(len(common) == len(set(common)), f"Duplicate common principals: {purpose}")
             need(spec["terms"] and all(type(t) is int and 1 <= t < 2**31 for t in spec["terms"]), f"Invalid terms: {purpose}")
         need(set(apps["purposes"]) == set(apps["purposeCounts"]), "Purpose specifications differ from quotas")
         for purpose, amount in (("home_improvement", 1800000), ("debt_consolidation", 3200000)):
@@ -235,6 +249,14 @@ def validate_config(config: dict, catalogue: dict) -> None:
         row_count = month_count * sum(tx["recurringClients"].values()) + sum(tx["ordinaryCounts"].values()) + 2 * (tx["sameClientTransfers"] + tx["differentClientTransfers"])
         need(max(n, account_count, apps["count"], row_count, config["employees"]["count"]) < 10 ** config["idWidth"], "idWidth too short for target counts")
         need(catalogue["firstNames"] and catalogue["lastNames"], "Empty fictional-name catalogue")
+        for group in ("firstNames", "lastNames"):
+            names = catalogue[group]
+            need(isinstance(names, list) and all(isinstance(name, str) and len(name.split()) == 1 and name.strip() == name for name in names), f"Names must be non-empty single tokens: {group}")
+            keys = [unicodedata.normalize("NFC", name).casefold() for name in names]
+            need(len(keys) == len(set(keys)), f"Duplicate name-catalogue entries: {group}")
+        surname_count = len(catalogue["lastNames"])
+        capacity = len(catalogue["firstNames"]) * surname_count * (surname_count - 1)
+        need(capacity >= n + config["employees"]["count"], "Name catalogue too small for unique client/employee full names")
         for name in ("employed", "retired", "deposit", "purchase", "withdrawal", "fee", "transferOut", "transferIn"):
             need(catalogue["descriptions"][name] and all(isinstance(x, str) and x.strip() == x and x for x in catalogue["descriptions"][name]), f"Invalid descriptions: {name}")
         for status, count in tx["recurringClients"].items():

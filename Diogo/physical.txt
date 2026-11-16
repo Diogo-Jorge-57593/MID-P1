@@ -1,11 +1,13 @@
 # Physical models - CSV and MongoDB
 
-Version: 2.1 | Date: 13 November 2026
+Version: 2.3 | Date: 13 November 2026
 
 Status: physical specifications. Sections 1-10 describe CSV; sections 11-20
-describe MongoDB. Offline generation code exists in `dataGeneration/` and has
-not been executed. The CSV dataset/reader and revised MongoDB schema are not
-installed by this document. Examples below are synthetic, illustrative records.
+describe MongoDB. Offline generation in `dataGeneration/` produced validated
+reference/scale exports on 13 November 2026. See its `generation-report.md` for
+counts and hashes. `database/load.py` installed current schemas/indexes and
+loaded/verified the scale source in MongoDB 8.0.32 on 13 November 2026.
+Examples below are synthetic, illustrative records.
 Scope: banking data modelling, storage, validation and queries; no application,
 authentication or user interface.
 
@@ -275,12 +277,12 @@ they were reviewed but are not modified by these specifications.
 | `report/report.tex` | Earlier CSV proposal uses six fields: `movement_id`, `account_id`, `booking_date`, `direction`, `amount`, `currency`. Replace that proposal later with the eight-column contract here; retain its UTF-8, semicolon, day/month/year and decimal-comma conventions. |
 | `database/setup.js` | Existing account `_id`, `clientId`, `currency` and `openedAt` fields support the CSV link and validation. Account IDs and ownership used in the specimen match the declared fixtures. Other MongoDB fields still reflect an earlier model; this file does not revise them. |
 | `run.py`, `queries/mongo.js`, `queries/verify.js` | Existing commands execute MongoDB scripts only; no CSV generation, reader, CSV validation or combined query is implemented there. Running the current `verify` command does not verify this CSV contract. |
-| `README.md` and report | Correctly describe CSV as planned. Implementation and measured results must be added before claiming the source complete. |
+| `README.md` and report | README links completed generation evidence. The report draft still needs alignment with the final eight-column source and measured results. |
 | `useCases.txt` | Still contains authentication and application status-history wording superseded by the agreed data-only scope and current-status attribute. No such features are introduced here. |
 
-Remaining implementation work: create/populate the CSV, implement its
-reader/validator and account-reference checks, execute representative queries,
-record actual results, and align the report/README and saved models.
+CSV generation, exported-file validation and account-reference checks are
+implemented in `dataGeneration/`. Remaining work: execute representative queries,
+load/verify MongoDB and align the report and saved models with measured results.
 No existing database or project file needs to be changed to review this model.
 
 ## 10. Basis in project brief and lessons
@@ -377,10 +379,13 @@ date-only meaning of `openedAt` is preserved by requiring midnight UTC.
 
 ## 13. MongoDB validators and collection creation
 
-The following complete `mongosh` schema definition is a reference for the
-revised implementation. It has **not** been applied to the running database.
-Its preflight rejects existing target collections before creating anything;
-it is not a migration command and does not overwrite previous data.
+The following `mongosh` schema definition is a creation-only reference. The
+deployed definitions live in `database/schema.js`, including the additional
+rule that an unassigned application must be pending. `database/load.py`
+implements non-destructive preflight, resumable loading and stored-source checks;
+see `database/README.md`. Its current scale source is loaded and verified.
+The standalone reference below rejects existing target collections; it does
+not migrate an existing database.
 
 ```javascript
 // Reference schema: create only in a database without these collections.
@@ -456,11 +461,12 @@ for (const name of Object.keys(physicalSchemas)) {
   }
 }
 for (const [name, schema] of Object.entries(physicalSchemas)) {
-  assert.commandWorked(physicalBank.createCollection(name, {
+  const created = physicalBank.createCollection(name, {
     validator: { $jsonSchema: schema },
     validationLevel: 'strict',
     validationAction: 'error'
-  }));
+  });
+  if (created.ok !== 1) throw new Error('Collection creation failed: ' + name);
 }
 physicalBank.accounts.createIndex(
   { clientId: 1 }, { name: 'accounts_by_client' }
@@ -544,8 +550,8 @@ const physicalExamples = {
 ```
 
 An unassigned application has the same required fields but omits `employeeId`.
-In a future loader, load clients and employees before accounts/applications,
-then validate the completed dataset. The examples are not the full five-client
+The implemented loader inserts clients and employees before accounts/applications,
+then validates the completed dataset. The examples are not the full five-client
 dataset needed to reproduce all CSV specimen totals.
 
 ## 16. References, cardinalities and cross-source checks

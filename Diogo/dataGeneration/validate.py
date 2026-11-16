@@ -135,6 +135,7 @@ def check_records(config: dict, reference: dict, plan: dict, rows: dict, problem
                 elif stage == "applications":
                     problems.need(row["clientId"] in records["clients"], f"{location}: dangling client reference")
                     problems.need("employeeId" not in row or row["employeeId"] in records["employees"], f"{location}: missing employee target")
+                    problems.need("employeeId" in row or row["status"] == "pending", f"{location}: unassigned application must be pending")
                     problems.need(type(row["requestedAmount"]) is int and 0 < row["requestedAmount"] < 10**34, f"{location}: invalid requested amount")
                     problems.need(type(row["termMonths"]) is int and 0 < row["termMonths"] < 2**31, f"{location}: invalid term")
                     problems.need(row["status"] in ("pending", "approved", "declined"), f"{location}: invalid status")
@@ -143,13 +144,14 @@ def check_records(config: dict, reference: dict, plan: dict, rows: dict, problem
                     if profile == "scale":
                         spec = config["applications"]["purposes"][row["purpose"]]
                         problems.need(spec["amountCents"][0] <= row["requestedAmount"] <= spec["amountCents"][1] and row["termMonths"] in spec["terms"], f"{location}: purpose range/term mismatch")
+                        problems.need(row["requestedAmount"] % config["applications"]["amountStepCents"] == 0, f"{location}: application amount is not a EUR 10 multiple")
                         if "employeeId" not in row:
                             problems.need(row["status"] == "pending" and day >= config["applications"]["unassignedStart"], f"{location}: unassigned scenario mismatch")
                         elif row["status"] == "pending":
                             problems.need(day >= config["applications"]["pendingStart"], f"{location}: pending date mismatch")
                         else:
                             problems.need(day <= config["applications"]["decidedEnd"], f"{location}: decided-date mismatch")
-                else:
+                elif stage == "transactions":
                     account = records["accounts"][row["accountId"]]
                     day = date.fromisoformat(row["bookingDate"])
                     problems.need(account["openedAt"][:10] <= day.isoformat(), f"{location}: predates account opening")
@@ -171,6 +173,9 @@ def check_records(config: dict, reference: dict, plan: dict, rows: dict, problem
     assigned = Counter(row.get("employeeId") for row in applications.values() if "employeeId" in row)
     emails = [row.get("email") for row in clients.values()]
     problems.need(len(set(emails)) == len(emails), "Duplicate synthetic emails")
+    person_names = [unicodedata.normalize("NFC", row["name"]).casefold()
+                    for stage in ("clients", "employees") for row in records[stage].values()]
+    problems.need(len(person_names) == len(set(person_names)), "Duplicate full name across clients/employees")
     problems.need(all(ownership[c] >= 1 for c in clients), "Some clients have no account")
     pairs, movement_owners, period_owners = defaultdict(list), Counter(), Counter()
     totals = {client: {"IN": 0, "OUT": 0} for client in clients}
@@ -193,6 +198,7 @@ def check_records(config: dict, reference: dict, plan: dict, rows: dict, problem
         a, b = pair
         problems.need(a["accountId"] != b["accountId"] and {a["direction"], b["direction"]} == {"IN", "OUT"}, f"Transfer {key}: invalid accounts/directions")
         problems.need(a["amount"] == b["amount"] and a["currency"] == b["currency"], f"Transfer {key}: amount/currency mismatch")
+        problems.need(a["bookingDate"] == b["bookingDate"], f"Transfer {key}: generated pair has different booking dates")
         if a["accountId"] in accounts and b["accountId"] in accounts:
             if accounts[a["accountId"]]["clientId"] == accounts[b["accountId"]]["clientId"]:
                 same_owner += 1
@@ -215,6 +221,9 @@ def check_records(config: dict, reference: dict, plan: dict, rows: dict, problem
         problems.need(Counter(r["purpose"] for r in applications.values()) == Counter(config["applications"]["purposeCounts"]), "Application purpose quotas differ")
         problems.need(sum("employeeId" not in r for r in applications.values()) == config["applications"]["unassignedPending"], "Unassigned quota differs")
         problems.need(sum(application_owners[c] == 0 for c in clients) == config["applications"]["clientsWithoutApplications"], "No-application client quota differs")
+        problems.need(Counter(str(application_owners[c]) for c in clients) == Counter(config["applications"]["perClientCounts"]), "Application counts per client differ from quotas")
+        common_count = sum(r["requestedAmount"] in config["applications"]["purposes"][r["purpose"]]["commonAmountsCents"] for r in applications.values())
+        problems.need(0 < common_count < len(applications), "Expected both common and other whole-EUR-10 application amounts")
         problems.need(application_owners[plan["queryClientId"]] == 2, "BQ1 anchor must have exactly two applications")
         problems.need(plan["employeeWithoutApplications"] in records["employees"] and assigned[plan["employeeWithoutApplications"]] == 0, "Reserved employee received applications")
         problems.need(sum(assigned[e] == 0 for e in records["employees"]) == 1, "Expected exactly one zero-workload employee")
@@ -275,6 +284,12 @@ def check_records(config: dict, reference: dict, plan: dict, rows: dict, problem
         "clientsWithoutApplications": sum(application_owners[c] == 0 for c in clients), "clientsWithoutPeriodMovements": sum(period_owners[c] == 0 for c in clients),
         "clientsWithoutAnyMovements": sum(movement_owners[c] == 0 for c in clients), "sameClientTransferPairs": same_owner, "differentClientTransferPairs": different_owner,
         "periodIncomingEUR": money(sum(v["IN"] for v in totals.values())), "periodOutgoingEUR": money(sum(v["OUT"] for v in totals.values()))}
+    statistics["uniquePersonNames"] = len(set(person_names))
+    statistics["applicationCountsPerClient"] = dict(sorted(Counter(str(application_owners[c]) for c in clients).items()))
+    statistics["unassignedApplications"] = sum("employeeId" not in row for row in applications.values())
+    if profile == "scale":
+        statistics["applicationAmounts"] = {"commonListMatches": common_count,
+                                            "otherEUR10Multiples": len(applications) - common_count}
     return statistics, {"BQ1": bq1, "BQ2": bq2}
 
 

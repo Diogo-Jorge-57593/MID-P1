@@ -29,7 +29,10 @@ Diogo's contribution includes its own Compose configuration and needs no files
 from the parent university workspace to generate data. Course PDFs and lessons
 remain external references, outside this repository.
 
-Data generation is implemented but has **not been run**. Future generation and
-resume instructions: [Diogo/dataGeneration/README.md](Diogo/dataGeneration/README.md).
+Banking reference/scale datasets were generated and validated on 13 November
+2026. Results: [generation report](Diogo/dataGeneration/generation-report.md).
+Generation and resume instructions: [Diogo/dataGeneration/README.md](Diogo/dataGeneration/README.md).
+MongoDB installation, stored-source loading/verification and visual viewing:
+[Diogo/database/README.md](Diogo/database/README.md).
 Generated run directories, checkpoints, caches and LaTeX build logs are ignored
 by Git. Agree where to share validated exports before adding completed datasets.

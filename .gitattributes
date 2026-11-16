@@ -1,2 +1,7 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Keep generator source hashes stable across Windows/Linux checkouts.
+Diogo/dataGeneration/*.py text eol=lf
+Diogo/dataGeneration/*.json text eol=lf
+Diogo/dataGeneration/tests/*.py text eol=lf

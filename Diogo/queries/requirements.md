@@ -1,10 +1,11 @@
 # P1 query definitions - banking
 
-Date: 13 November 2026.
+Date: 13 November 2026. Logical-notation update: 15 November 2026.
 
-Status: two proposed individual-subtopic queries, with expected results and
-explicit fixture assumptions. These definitions precede revised source
-implementation and population. They do not claim successful database runs.
+Status: two individual-subtopic query definitions. Sources were generated and
+MongoDB loaded on 13 November 2026. BQ1 was checked against the loaded scale
+source; BQ2's cross-source execution runner remains pending. Professor-style
+logical expressions for both queries: [datalog.md](datalog.md).
 
 Group subtopics, following the latest discussion:
 
@@ -43,7 +44,7 @@ from proposed definitions; this document alone does not meet every deliverable.
 
 ## 2. BQ1 - Retrieve a client's credit applications
 
-**Question:** Which credit applications did client `C004` submit, and what are
+**Question:** Which credit applications did client `C000004` submit, and what are
 their requested amounts and current statuses?
 
 | Property | Definition |
@@ -52,12 +53,12 @@ their requested amounts and current statuses?
 | Stakeholder need | Credit officer needs to inspect requests associated with a client |
 | Requirement connection | Supports the application-retrieval part of FR3; does not itself retrieve the complete applicant profile |
 | Source | MongoDB `dmi_p1_bank.applications` |
-| Input | `clientId`, illustrated by `C004` |
+| Input | `clientId`: `C000004` in the current scale profile; `C004` in the reference profile |
 | Filter | Exact equality on `applications.clientId` |
 | Output | `_id`, `requestedAmount` in EUR, `status` |
 | Output grain | One row per application |
 | Ordering | `_id` ascending |
-| Empty result | Empty list when no applications match; for example client `C005` in the declared fixtures |
+| Empty result | Empty list when no applications match; for example `C000005` in scale or `C005` in reference |
 | Difficulty | **Simple**: one collection, equality filter, projection and sorting; no join or aggregation |
 
 Corresponding `mongosh` query:
@@ -65,7 +66,7 @@ Corresponding `mongosh` query:
 ```javascript
 const bankQueries = db.getSiblingDB('dmi_p1_bank');
 bankQueries.applications.find(
-  { clientId: 'C004' },
+  { clientId: 'C000004' },
   { _id: 1, requestedAmount: 1, status: 1 }
 ).sort({ _id: 1 });
 ```
@@ -74,19 +75,19 @@ Expected result, formatted for the report:
 
 | _id | requestedAmount (EUR) | status |
 |---|---:|---|
-| L004 | 18000.00 | pending |
-| L005 | 32000.00 | declined |
+| L000004 | 18000.00 | pending |
+| L000005 | 32000.00 | declined |
 
-These values come from the explicit application fixtures currently declared
-in `../database/setup.js`. The fields used by this query are retained by the
-latest logical and physical models. Preserve those fixture values during the
-loader update, or revise the expected-result table if the fixture design changes.
+These scale-profile values preserve the small reference case: `C004` with
+`L004` and `L005`. Current expected results are stored with the generated source
+in `expected-query-results.json`, and the scale BQ1 read was checked against
+MongoDB on 13 November 2026. Use matching client/application IDs for each profile.
 Actual amounts must remain BSON Decimal128, not binary floating-point values.
 
 **Data needed:** at least one client with multiple applications, different
 statuses, and a client with no applications to demonstrate the empty result.
-The declared fixtures already describe these cases; their live state has not
-been checked by this task.
+Generated profiles contain these cases. The logical expression is documented
+in [datalog.md](datalog.md); it does not require employee assignment to exist.
 
 ## 3. BQ2 - Summarise client account movements within a period
 
@@ -99,7 +100,7 @@ with no movements?
 | Scope | Banking; second individual-subtopic query; cross-source within banking |
 | Stakeholder need | Review a client's banking activity over a selected period |
 | Requirement connection | Uses FR1 account ownership and FR2 period-filtered movements; adds the client-level aggregation agreed in the operation list |
-| Sources | MongoDB `clients` and `accounts`; CSV `data/transactions.csv` |
+| Sources | MongoDB `clients` and `accounts`; matching CSV `dataGeneration/outputs/<profile>/<dataset-id>/transactions.csv` (path relative to Diogo) |
 | Inputs | Inclusive calendar dates: start `2026-09-01`, end `2026-09-30` |
 | Ownership link | `accounts.clientId = clients._id` |
 | Movement link | CSV `accountId = accounts._id` |
@@ -124,7 +125,7 @@ Processing definition:
 7. Return one row per client, in client-ID order.
 
 Expected result for the ten-row illustrative CSV specimen in `../physical.txt`
-and the ownership fixtures currently declared in `../database/setup.js`:
+and the generated reference profile's ownership fixtures in `../dataGeneration/reference.json`:
 
 | clientId | totalIncomingEUR | totalOutgoingEUR |
 |---|---:|---:|
@@ -153,8 +154,9 @@ Important query semantics:
 **Data needed:** multiple accounts for a client; incoming and outgoing
 movements; an internal transfer; an account with no movements; exact decimal
 amounts; dates on and outside the period boundaries. The physical CSV specimen
-already specifies these cases, but the actual CSV reader/query remains to be
-implemented after source population.
+and generated profiles contain these cases. Export validation is implemented;
+the actual cross-source query runner remains pending. Full logical semantics,
+including aggregation and zero-total rows, are specified in [datalog.md](datalog.md).
 
 ## 4. Remaining group query design
 
@@ -190,13 +192,17 @@ fixture results. SQL/JSON technology choices alone do not identify those links.
 ## 5. Relation to existing project files
 
 - `mongo.js` already contains the same simple client-application query under
-  label Q1, plus two supporting demonstrations. BQ1 here is that individual
+  label Q1, plus two supporting demonstrations. It still uses the small reference
+  ID `C004`; use the scale-specific query above for the current database. BQ1 is that individual
   query; the demonstrations are not automatically additional required queries.
 - `../report/report.tex` already proposes the same client movement-total
   question as Q2. BQ2 here makes its inputs, semantics and expected results
   explicit using the latest CSV specimen.
-- `../physical.txt` defines the planned storage contracts. MongoDB's old loader
-  and verification script still require alignment; CSV execution is pending.
+- `../physical.txt` defines the storage contracts. `../database/load.py` loads
+  and verifies the current MongoDB source. Legacy fixture scripts remain
+  separate; BQ2 execution is pending.
+- `datalog.md` provides professor-style logical notation for both queries,
+  explicitly marking aggregation/negation extensions needed by full BQ2.
 - This document defines the two banking queries. It does not claim the other
   student's queries or the eight joint queries are already specified.
 

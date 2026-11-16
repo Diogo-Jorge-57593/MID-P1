@@ -23,7 +23,7 @@ def stage_sizes(config: dict, reference: dict, profile: str) -> dict:
             "transactions": (ordinary + transfers, ordinary + 2 * transfers)}
 
 
-def make_plan(config: dict, reference: dict, profile: str) -> dict:
+def make_plan(config: dict, reference: dict, profile: str, catalogue: dict) -> dict:
     if profile == "reference":
         return {"profile": profile, "queryClientId": "C004", "emptyClientId": "C005",
                 "queryStart": "2026-09-01", "queryEnd": "2026-09-30"}
@@ -41,6 +41,19 @@ def make_plan(config: dict, reference: dict, profile: str) -> dict:
         if count < 0 or count > len(values):
             raise GenerationError(f"Not enough eligible items for scenario {label}: need {count}, have {len(values)}")
         return rng_for(config, "plan", label).sample(list(values), count)
+
+    # Allocate names without replacement before building any records. Resume
+    # never depends on an in-memory set of names from an earlier process.
+    surnames = catalogue["lastNames"]
+    surname_count = len(surnames)
+    capacity = len(catalogue["firstNames"]) * surname_count * (surname_count - 1)
+    ranks = rng_for(config, "plan", "person-names").sample(range(capacity), len(clients) + len(employees))
+    names = []
+    for rank in ranks:
+        first, tail = divmod(rank, surname_count * (surname_count - 1))
+        left, right = divmod(tail, surname_count - 1)
+        right += right >= left
+        names.append(" ".join((catalogue["firstNames"][first], surnames[left], surnames[right])))
 
     employment = shuffle(expanded(config["clients"]["employmentCounts"]), "employment")
     employment_by_client = dict(zip(clients, employment))
@@ -83,17 +96,19 @@ def make_plan(config: dict, reference: dict, profile: str) -> dict:
         raise GenerationError("Need two active source owners for different-client transfers")
 
     apps = config["applications"]
-    no_apps = sorted([empty] + sample([c for c in clients if c not in {empty, anchor}], apps["clientsWithoutApplications"] - 1, "no-applications"))
-    app_clients = [c for c in clients if c not in no_apps and c != anchor]
+    remaining_counts = dict(apps["perClientCounts"])
+    remaining_counts["0"] -= 1
+    remaining_counts["2"] -= 1
+    other_counts = [int(value) for value in shuffle(expanded(remaining_counts), "application-counts")]
+    counts_by_client = {empty: 0, anchor: 2}
+    counts_by_client.update(zip([c for c in clients if c not in {empty, anchor}], other_counts))
+    no_apps = sorted(c for c in clients if counts_by_client[c] == 0)
     free_positions = [i for i in range(apps["count"]) if i not in (3, 4)]
-    if len(free_positions) < len(app_clients):
-        raise GenerationError("Too few applications to cover all selected clients")
     owners = [None] * apps["count"]
     owners[3] = owners[4] = anchor
-    owner_rng = rng_for(config, "plan", "application-owners")
-    owner_weights = {c: owner_rng.randint(1, 5) for c in app_clients}
-    for offset, position in enumerate(free_positions):
-        owners[position] = app_clients[offset] if offset < len(app_clients) else weighted(owner_rng, owner_weights)
+    owner_pool = shuffle([c for c in clients if c != anchor for _ in range(counts_by_client[c])], "application-owners")
+    for position, owner in zip(free_positions, owner_pool):
+        owners[position] = owner
 
     def allocate_pinned(count_map, pins, label):
         remaining = dict(count_map)
@@ -118,12 +133,14 @@ def make_plan(config: dict, reference: dict, profile: str) -> dict:
     return {"profile": profile, "queryClientId": anchor, "emptyClientId": empty,
             "queryStart": config["queryPeriodStart"], "queryEnd": config["queryPeriodEnd"],
             "clientIds": clients, "employeeIds": employees, "employment": employment,
+            "clientNames": names[:len(clients)], "employeeNames": names[len(clients):],
             "accountIds": accounts, "accountOwners": account_owners, "accountTypes": account_types,
             "accountStatuses": account_statuses, "primaryAccounts": primary,
             "protectedAccounts": protected, "boundaryAccountId": primary[boundary_client],
             "clientsWithoutPeriodMovements": zero_period, "clientsWithoutAnyMovements": zero_all,
             "unusedAccounts": sorted(unused), "recurringClients": recurring,
             "clientsWithoutApplications": no_apps, "applicationOwners": owners,
+            "applicationCountsByClient": counts_by_client,
             "applicationStatuses": statuses, "applicationPurposes": purposes,
             "applicationEmployees": assignments, "employeeWithoutApplications": employees[-1]}
 
@@ -153,9 +170,6 @@ class Builder:
         rng = rng_for(self.config, stage, index)
         return getattr(self, "build_" + stage)(index, rng)
 
-    def name(self, rng):
-        return " ".join([rng.choice(self.catalogue["firstNames"]), rng.choice(self.catalogue["lastNames"]), rng.choice(self.catalogue["lastNames"])])
-
     def day(self, rng, lower: str, upper: str, avoid_query=False) -> str:
         first, last = date.fromisoformat(lower), date.fromisoformat(upper)
         if first > last:
@@ -182,11 +196,11 @@ class Builder:
         bands = self.config["clients"]["incomeBandsCents"][status]
         band = int(weighted(rng, {str(i): spec[2] for i, spec in enumerate(bands)}))
         low, high, _ = bands[band]
-        return [{"_id": client, "name": self.name(rng), "email": client.lower() + "@example.invalid",
+        return [{"_id": client, "name": self.plan["clientNames"][index], "email": client.lower() + "@example.invalid",
                  "annualIncome": rng.randint(low, high), "employmentStatus": status}]
 
     def build_employees(self, index, rng):
-        return [{"_id": self.plan["employeeIds"][index], "name": self.name(rng)}]
+        return [{"_id": self.plan["employeeIds"][index], "name": self.plan["employeeNames"][index]}]
 
     def build_accounts(self, index, rng):
         account, client = self.plan["accountIds"][index], self.plan["accountOwners"][index]
@@ -213,7 +227,14 @@ class Builder:
         else:
             last = spec["decidedEnd"]
         principal = spec["purposes"][purpose]
-        amount = 1800000 if index == 3 else 3200000 if index == 4 else rng.randint(*principal["amountCents"])
+        if index in (3, 4):
+            amount = 1800000 if index == 3 else 3200000
+        elif rng.randrange(100) < spec["commonAmountPercent"]:
+            amount = rng.choice(principal["commonAmountsCents"])
+        else:
+            low, high = principal["amountCents"]
+            step = spec["amountStepCents"]
+            amount = rng.randint((low + step - 1) // step, high // step) * step
         seconds = rng.randrange(86400)
         timestamp = datetime.combine(date.fromisoformat(self.day(rng, first, last)), datetime.min.time(), tzinfo=timezone.utc) + timedelta(seconds=seconds)
         result = {"_id": identifier("L", index + 1, self.config["idWidth"]), "clientId": owner,

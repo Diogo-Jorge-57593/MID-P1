@@ -28,17 +28,20 @@
     "extraAccountTypeWeights": {"current": 25, "savings": 75}
   },
   "applications": {
-    "count": 1500,
-    "clientsWithoutApplications": 100,
-    "statusCounts": {"approved": 825, "declined": 375, "pending": 300},
-    "unassignedPending": 150,
-    "purposeCounts": {"vehicle": 525, "education": 225, "home_improvement": 375, "personal_expense": 225, "debt_consolidation": 150},
+    "count": 750,
+    "clientsWithoutApplications": 150,
+    "perClientCounts": {"0": 150, "1": 200, "2": 75, "4": 25, "5": 25, "7": 25},
+    "statusCounts": {"approved": 410, "declined": 190, "pending": 150},
+    "unassignedPending": 75,
+    "amountStepCents": 1000,
+    "commonAmountPercent": 60,
+    "purposeCounts": {"vehicle": 260, "education": 115, "home_improvement": 190, "personal_expense": 110, "debt_consolidation": 75},
     "purposes": {
-      "vehicle": {"amountCents": [300000, 4500000], "terms": [12, 24, 36, 48, 60, 72]},
-      "education": {"amountCents": [100000, 3000000], "terms": [12, 24, 36, 48, 60, 84]},
-      "home_improvement": {"amountCents": [500000, 12000000], "terms": [24, 36, 60, 84, 120, 180, 240]},
-      "personal_expense": {"amountCents": [50000, 2000000], "terms": [6, 12, 24, 36, 48]},
-      "debt_consolidation": {"amountCents": [200000, 5000000], "terms": [12, 24, 36, 48, 60, 84]}
+      "vehicle": {"amountCents": [300000, 4500000], "commonAmountsCents": [500000, 1000000, 1500000, 2000000, 2500000, 3000000, 4000000], "terms": [12, 24, 36, 48, 60, 72]},
+      "education": {"amountCents": [100000, 3000000], "commonAmountsCents": [100000, 250000, 500000, 750000, 1000000, 1500000, 2000000, 2500000], "terms": [12, 24, 36, 48, 60, 84]},
+      "home_improvement": {"amountCents": [500000, 12000000], "commonAmountsCents": [500000, 1000000, 1500000, 1800000, 2000000, 2500000, 5000000, 7500000, 10000000], "terms": [24, 36, 60, 84, 120, 180, 240]},
+      "personal_expense": {"amountCents": [50000, 2000000], "commonAmountsCents": [50000, 100000, 200000, 250000, 500000, 750000, 1000000, 1500000], "terms": [6, 12, 24, 36, 48]},
+      "debt_consolidation": {"amountCents": [200000, 5000000], "commonAmountsCents": [250000, 500000, 1000000, 1500000, 2000000, 2500000, 3000000, 3200000, 4000000, 5000000], "terms": [12, 24, 36, 48, 60, 84]}
     },
     "pendingStart": "2026-08-01",
     "decidedEnd": "2026-10-15",

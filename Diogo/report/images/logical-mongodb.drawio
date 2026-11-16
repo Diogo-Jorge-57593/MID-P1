@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile><diagram name="logical-mongodb"><mxGraphModel><root><mxCell id="0" />
+                <mxCell id="1" parent="0" />
+                <mxCell id="aQUfkFHdEVYSLhgmH6Wx-90" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillStyle=solid;strokeColor=#666666;fillColor=#f5f5f5;align=left;fontColor=#333333;" value="&lt;div&gt;&lt;b&gt;// clients collection&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;{&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;&amp;nbsp; &quot;_id&quot;: &quot;C001&quot;,&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;&amp;nbsp; &quot;name&quot;: &quot;Ana Silva&quot;,&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;&amp;nbsp; &quot;email&quot;: &quot;ana@example.com&quot;,&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;&amp;nbsp; &quot;annualIncome&quot;: 30000,&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;&amp;nbsp; &quot;employmentStatus&quot;: &quot;employed&quot;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;}&lt;/b&gt;&lt;/div&gt;" vertex="1">
+                    <mxGeometry height="150" width="230" x="2478" y="60" as="geometry" />
+                </mxCell>
+                <mxCell id="aQUfkFHdEVYSLhgmH6Wx-95" edge="1" parent="1" source="aQUfkFHdEVYSLhgmH6Wx-91" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;defaultLabelBackgroundColor=page;labelPadding=0 4;" target="aQUfkFHdEVYSLhgmH6Wx-90">
+                    <mxGeometry relative="1" as="geometry" />
+                </mxCell>
+                <mxCell id="aQUfkFHdEVYSLhgmH6Wx-91" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillStyle=solid;strokeColor=#666666;fillColor=#f5f5f5;align=left;fontColor=#333333;" value="&lt;div&gt;&lt;b&gt;// accounts collection&amp;nbsp;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;div style=&quot;&quot;&gt;&lt;b&gt;{&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;b&gt;&amp;nbsp; &quot;_id&quot;: &quot;A001&quot;,&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;b&gt;&amp;nbsp; &quot;clientId&quot;: &quot;C001&quot;,&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;b&gt;&amp;nbsp; &quot;accountType&quot;: &quot;current&quot;,&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;b&gt;&amp;nbsp; &quot;currency&quot;: &quot;EUR&quot;,&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;b&gt;&amp;nbsp; &quot;openedAt&quot;: &quot;2025-03-10&quot;,&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;b&gt;&amp;nbsp; &quot;status&quot;: &quot;active&quot;&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;b&gt;}&lt;/b&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+                    <mxGeometry height="150" width="220" x="2878" y="80" as="geometry" />
+                </mxCell>
+                <mxCell id="aQUfkFHdEVYSLhgmH6Wx-93" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillStyle=solid;strokeColor=#666666;fillColor=#f5f5f5;align=left;fontColor=#333333;" value="&lt;div&gt;&lt;b&gt;// employees collection&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;{&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;&amp;nbsp; &quot;_id&quot;: &quot;E001&quot;,&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;&amp;nbsp; &quot;name&quot;: &quot;João Costa&quot;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;}&lt;/b&gt;&lt;/div&gt;" vertex="1">
+                    <mxGeometry height="100" width="210" x="2478" y="330" as="geometry" />
+                </mxCell>
+                <mxCell id="aQUfkFHdEVYSLhgmH6Wx-96" edge="1" parent="1" source="aQUfkFHdEVYSLhgmH6Wx-94" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;defaultLabelBackgroundColor=page;labelPadding=0 4;" target="aQUfkFHdEVYSLhgmH6Wx-90">
+                    <mxGeometry relative="1" as="geometry" />
+                </mxCell>
+                <mxCell id="aQUfkFHdEVYSLhgmH6Wx-98" edge="1" parent="1" source="aQUfkFHdEVYSLhgmH6Wx-94" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;labelPadding=0 4;" target="aQUfkFHdEVYSLhgmH6Wx-93">
+                    <mxGeometry relative="1" as="geometry" />
+                </mxCell>
+                <mxCell id="aQUfkFHdEVYSLhgmH6Wx-94" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillStyle=solid;strokeColor=#666666;fillColor=#f5f5f5;align=left;fontColor=#333333;" value="&lt;div&gt;&lt;b&gt;// applications collection&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;div style=&quot;&quot;&gt;&lt;b&gt;{&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;b&gt;&amp;nbsp; &quot;_id&quot;: &quot;L001&quot;,&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;b&gt;&amp;nbsp; &quot;clientId&quot;: &quot;C001&quot;,&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;b&gt;&amp;nbsp; &quot;employeeId&quot;: &quot;E001&quot;,&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;b&gt;&amp;nbsp; &quot;requestedAmount&quot;: 15000.00,&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;b&gt;&amp;nbsp; &quot;termMonths&quot;: 60,&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;b&gt;&amp;nbsp; &quot;purpose&quot;: &quot;vehicle purchase&quot;,&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;b&gt;&amp;nbsp; &quot;submittedAt&quot;: &quot;2026-09-15T10:30:00Z&quot;,&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;b&gt;&amp;nbsp; &quot;status&quot;: &quot;pending&quot;&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;b&gt;}&lt;/b&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+                    <mxGeometry height="180" width="250" x="2863" y="290" as="geometry" />
+                </mxCell>
+                <mxCell id="aQUfkFHdEVYSLhgmH6Wx-99" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="References" vertex="1">
+                    <mxGeometry height="30" width="60" x="2738" y="350" as="geometry" />
+                </mxCell>
+                <mxCell id="aQUfkFHdEVYSLhgmH6Wx-100" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;rotation=30;" value="References" vertex="1">
+                    <mxGeometry height="30" width="60" x="2778" y="240" as="geometry" />
+                </mxCell>
+                <mxCell id="aQUfkFHdEVYSLhgmH6Wx-101" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="References" vertex="1">
+                    <mxGeometry height="30" width="60" x="2763" y="110" as="geometry" />
+                </mxCell>
+                </root></mxGraphModel></diagram></mxfile>

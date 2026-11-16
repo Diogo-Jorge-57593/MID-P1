@@ -1,7 +1,29 @@
 {
   "provenance": "Frozen fictional-name combinations and movement templates drafted with AI assistance; not sampled customer records.",
-  "firstNames": ["Ana", "João", "Inês", "Miguel", "Beatriz", "Tomás", "Mariana", "Diogo", "Leonor", "Rafael", "Sofia", "Tiago", "Carolina", "André", "Marta", "Pedro", "Catarina", "Francisco", "Rita", "Daniel", "Teresa", "Bruno", "Laura", "Gonçalo"],
-  "lastNames": ["Silva", "Costa", "Martins", "Ferreira", "Ribeiro", "Sousa", "Pereira", "Almeida", "Carvalho", "Rodrigues", "Lopes", "Fernandes", "Gomes", "Santos", "Barbosa", "Pinto", "Correia", "Teixeira", "Nunes", "Mendes", "Cardoso", "Rocha", "Azevedo", "Moreira"],
+  "firstNames": [
+    "Ana", "João", "Inês", "Miguel", "Beatriz", "Tomás", "Mariana", "Diogo",
+    "Leonor", "Rafael", "Sofia", "Tiago", "Carolina", "André", "Marta", "Pedro",
+    "Catarina", "Francisco", "Rita", "Daniel", "Teresa", "Bruno", "Laura", "Gonçalo",
+    "Afonso", "Alice", "António", "Bárbara", "Bernardo", "Camila", "Clara", "Diana",
+    "Duarte", "Eduardo", "Elisa", "Eva", "Fábio", "Filipa", "Gabriel", "Guilherme",
+    "Helena", "Henrique", "Hugo", "Isabel", "Jaime", "Joana", "Jorge", "José",
+    "Júlia", "Lara", "Lia", "Luís", "Luísa", "Madalena", "Manuel", "Maria",
+    "Matilde", "Mónica", "Nuno", "Patrícia", "Paula", "Paulo", "Raquel", "Ricardo",
+    "Rodrigo", "Rui", "Salvador", "Samuel", "Sara", "Sérgio", "Simão", "Susana",
+    "Tatiana", "Valentina", "Vasco", "Vera", "Vicente", "Vitória", "Xavier", "Yara"
+  ],
+  "lastNames": [
+    "Silva", "Costa", "Martins", "Ferreira", "Ribeiro", "Sousa", "Pereira", "Almeida",
+    "Carvalho", "Rodrigues", "Lopes", "Fernandes", "Gomes", "Santos", "Barbosa", "Pinto",
+    "Correia", "Teixeira", "Nunes", "Mendes", "Cardoso", "Rocha", "Azevedo", "Moreira",
+    "Abreu", "Aguiar", "Alves", "Amaral", "Andrade", "Antunes", "Araújo", "Ávila",
+    "Baptista", "Barros", "Bastos", "Borges", "Branco", "Cabral", "Campos", "Castro",
+    "Coelho", "Coutinho", "Cruz", "Cunha", "Dias", "Duarte", "Esteves", "Faria",
+    "Figueiredo", "Fonseca", "Freitas", "Garcia", "Gonçalves", "Guerreiro", "Henriques", "Leal",
+    "Leite", "Lima", "Lourenço", "Macedo", "Machado", "Matos", "Melo", "Miranda",
+    "Monteiro", "Mota", "Moura", "Neves", "Oliveira", "Paiva", "Pires", "Ramos",
+    "Reis", "Sá", "Sampaio", "Sequeira", "Soares", "Tavares", "Vaz", "Vieira"
+  ],
   "descriptions": {
     "employed": ["Salário - empregador fictício", "Monthly salary - synthetic employer"],
     "retired": ["Pensão - pagamento fictício", "Monthly pension - synthetic payment"],
